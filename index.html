@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>스마트 은퇴 연금 통합 시뮬레이터</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .slider-thumb::-webkit-slider-thumb {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(37,99,235,0.4);
+            border: 2px solid #ffffff;
+        }
+        /* Mobile touch optimization */
+        input, select, button {
+            font-size: 16px !important; /* Prevents auto-zoom on iOS */
+        }
+        @media (min-width: 640px) {
+            input, select, button {
+                font-size: 0.875rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12 antialiased selection:bg-blue-100 selection:text-blue-700">
+    <header class="bg-slate-900 text-white shadow-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 shrink-0">
+                    <i class="fa-solid fa-piggy-bank text-lg sm:text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg leading-tight">스마트 은퇴 연금 시뮬레이터</h1>
+                    <p class="text-[11px] sm:text-xs text-slate-400">IRP · 퇴직연금 · 국민연금 통합 수령액 추정</p>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center space-x-2 text-xs bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-slate-300">실시간 연산 모드</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8">
+            
+            <!-- Left Panel: Input Controls -->
+            <section class="lg:col-span-5 space-y-4 sm:space-y-6">
+                <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between pb-3 sm:pb-4 mb-4 border-b border-slate-100">
+                        <h2 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-blue-600"></i> 은퇴 설계 조건 입력
+                        </h2>
+                        <button id="resetBtn" class="text-xs text-slate-500 hover:text-blue-600 active:scale-95 transition flex items-center gap-1 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg">
+                            <i class="fa-solid fa-rotate-right"></i> 초기화
+                        </button>
+                    </div>
+
+                    <form id="pensionForm" class="space-y-4 sm:space-y-5" onsubmit="event.preventDefault();">
+                        
+                        <!-- 1. 기본 프로필 정보 -->
+                        <div class="bg-slate-50/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 space-y-3.5">
+                            <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 1. 나이 및 입사 시기
+                            </h3>
+                            
+                            <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">현재 나이 (세)</label>
+                                    <input type="number" id="currentAge" min="20" max="70" value="38" 
+                                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">첫 입사 연도</label>
+                                    <input type="number" id="startYear" min="1980" max="2026" value="2014" 
+                                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-xs font-semibold text-slate-700">예상 은퇴(정년) 나이</label>
+                                    <span id="retireAgeVal" class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">60세</span>
+                                </div>
+                                <input type="range" id="retireAge" min="50" max="70" value="60" step="1"
+                                    class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider-thumb">
+                            </div>
+                        </div>
+
+                        <!-- 2. 시드머니 (현재 잔액) -->
+                        <div class="bg-slate-50/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 space-y-3.5">
+                            <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 2. 현재 시드머니 (기적립금)
+                            </h3>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">개인 IRP 잔액</label>
+                                    <div class="relative">
+                                        <input type="number" id="irpSeed" step="100" value="3500" 
+                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-10 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">퇴직연금(DB/DC) 잔액</label>
+                                    <div class="relative">
+                                        <input type="number" id="pensionSeed" step="100" value="6000" 
+                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-10 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. 미래 추가 적립액 -->
+                        <div class="bg-slate-50/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 space-y-3.5">
+                            <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 3. 은퇴 전까지 매월 납입할 금액
+                            </h3>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">개인 IRP 월 적립</label>
+                                    <div class="relative">
+                                        <input type="number" id="irpMonthly" step="5" value="50" 
+                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-14 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원/월</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 mt-1">연간 <span id="irpAnnualText" class="font-medium text-slate-600">600만 원</span></p>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">퇴직연금 월 추가 적립</label>
+                                    <div class="relative">
+                                        <input type="number" id="pensionMonthly" step="5" value="40" 
+                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-14 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원/월</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 mt-1">회사+본인 부담금 평균</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. 수익률 & 국민연금 조건 -->
+                        <div class="bg-slate-50/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 space-y-3.5">
+                            <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 4. 수익률 및 국민연금 조건
+                            </h3>
+                            
+                            <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">은퇴 전 운용수익률</label>
+                                    <div class="relative">
+                                        <input type="number" id="returnBefore" step="0.5" value="5.0" min="0" max="20"
+                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-8 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">%</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">은퇴 후 운용수익률</label>
+                                    <div class="relative">
+                                        <input type="number" id="returnAfter" step="0.5" value="3.0" min="0" max="15"
+                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-8 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 국민연금 용어 개선 부분 -->
+                            <div class="bg-blue-50/70 p-3 rounded-lg border border-blue-100 space-y-1.5">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-blue-900 flex items-center gap-1">
+                                        <i class="fa-solid fa-circle-question text-blue-500"></i> 재직 기간 평균 월소득 (세전 급여)
+                                    </label>
+                                </div>
+                                <div class="relative">
+                                    <input type="number" id="avgSalary" step="10" value="350" 
+                                        class="w-full bg-white border border-blue-200 rounded-lg pl-3 pr-12 py-2 text-sm font-bold text-blue-900 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                    <span class="absolute right-3 top-2.5 text-xs text-slate-500 font-medium">만원</span>
+                                </div>
+                                <p class="text-[11px] text-blue-700/90 leading-relaxed font-normal">
+                                    💡 <strong>이 값이 무엇인가요?</strong><br>
+                                    내가 직장생활 전체 동안 벌게 되는(벌었던) <strong>평균 월 세전 급여</strong>입니다. (연봉 / 12)<br>
+                                    시스템이 이 수치를 기반으로 <u>65세 이후 평생 받게 될 국민연금을 자동 계산</u>합니다.
+                                </p>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">사적연금(IRP/퇴직) 희망 수령 기간</label>
+                                <select id="payoutYears" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                    <option value="15">15년 (은퇴 후 15년간 집중 수령)</option>
+                                    <option value="20" selected>20년 (60세 은퇴 시 80세까지)</option>
+                                    <option value="25">25년 (60세 은퇴 시 85세까지)</option>
+                                    <option value="30">30년 (60세 은퇴 시 90세까지)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+
+            <!-- Right Panel: Calculation Results & Visualizations -->
+            <section class="lg:col-span-7 space-y-4 sm:space-y-6">
+                
+                <!-- Summary Key Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm relative overflow-hidden">
+                        <div class="absolute right-2 top-2 text-slate-100 pointer-events-none">
+                            <i class="fa-solid fa-vault text-5xl sm:text-6xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-500">은퇴 시점 총 자산 (추정)</p>
+                        <h3 id="cardTotalCorpus" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1 sm:mt-2">0 원</h3>
+                        <p id="cardCorpusDetail" class="text-[11px] sm:text-xs text-blue-600 mt-1 font-medium truncate">IRP + 퇴직연금 원리금</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-4 sm:p-5 text-white shadow-lg shadow-blue-500/20 relative overflow-hidden">
+                        <div class="absolute right-2 top-2 text-white/10 pointer-events-none">
+                            <i class="fa-solid fa-money-bill-wave text-5xl sm:text-6xl"></i>
+                        </div>
+                        <p class="text-xs font-medium text-blue-100">은퇴 후 예상 월 총 수령액</p>
+                        <h3 id="cardTotalMonthly" class="text-xl sm:text-2xl font-extrabold mt-1 sm:mt-2">0 만원</h3>
+                        <p id="cardMonthlyPeriod" class="text-[11px] sm:text-xs text-blue-200 mt-1 truncate">65세 이후 사적+국민연금 합산</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm relative overflow-hidden">
+                        <div class="absolute right-2 top-2 text-slate-100 pointer-events-none">
+                            <i class="fa-solid fa-shield-halved text-5xl sm:text-6xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-500">국민연금 월 수령액 (65세~)</p>
+                        <h3 id="cardNationalPension" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1 sm:mt-2">0 만원</h3>
+                        <p id="cardWorkYears" class="text-[11px] sm:text-xs text-emerald-600 mt-1 font-medium truncate">총 가입 기간 N년 기준</p>
+                    </div>
+                </div>
+
+                <!-- Main Visual Chart Tabs -->
+                <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 sm:pb-4 border-b border-slate-100 gap-2.5">
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold text-slate-900">은퇴 연금 시뮬레이션 그래프</h3>
+                            <p class="text-xs text-slate-500">자산 축적 과 수령 기간 동안의 잔액 추이 분석</p>
+                        </div>
+                        <div class="flex bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600 w-full sm:w-auto">
+                            <button id="btnTabAccumulation" class="flex-1 sm:flex-none px-3 py-1.5 rounded-lg bg-white text-blue-600 shadow-sm transition text-center">
+                                자산 불리기 (은퇴 전)
+                            </button>
+                            <button id="btnTabPayout" class="flex-1 sm:flex-none px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-slate-600 text-center">
+                                연금 타기 (은퇴 후)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full h-[260px] sm:h-[320px]">
+                        <canvas id="pensionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Breakdown & Timeline Table -->
+                <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200 space-y-3 sm:space-y-4">
+                    <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-blue-600"></i> 수령 기간별 월 수령액 비교
+                    </h3>
+                    <div class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+                        <table class="w-full text-left text-xs min-w-[500px]">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-600 border-b border-slate-200">
+                                    <th class="p-2.5 sm:p-3 font-semibold">구분 (수령 기간)</th>
+                                    <th class="p-2.5 sm:p-3 font-semibold">사적연금 월 수령액</th>
+                                    <th class="p-2.5 sm:p-3 font-semibold">국민연금 월 수령액</th>
+                                    <th class="p-2.5 sm:p-3 font-semibold text-blue-600">총 월 수령액 (65세 이후)</th>
+                                    <th class="p-2.5 sm:p-3 font-semibold">비고</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonTable" class="divide-y divide-slate-100 text-slate-700">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tax & Strategy Insights Box -->
+                <div class="bg-slate-900 text-slate-200 rounded-2xl p-4 sm:p-6 border border-slate-800 space-y-3">
+                    <div class="flex items-center gap-2 text-amber-400 font-bold text-xs sm:text-sm">
+                        <i class="fa-solid fa-lightbulb text-base"></i>
+                        <span>스마트 절세 & 연금 가이드 팁</span>
+                    </div>
+                    <ul class="text-xs space-y-2 text-slate-300 leading-relaxed list-disc pl-4">
+                        <li>
+                            <strong class="text-white">사적연금 세금 한도 (연 1,500만 원):</strong> 개인 IRP 세액공제분 및 운용수익 수령액이 연 1,500만 원(월 125만 원)을 넘으면 종합과세 또는 16.5% 분리과세를 선택해야 합니다.
+                        </li>
+                        <li>
+                            <strong class="text-white">퇴직금 원금 절세 혜택:</strong> 퇴직연금의 순수 퇴직금 원금은 1,500만 원 한도 산정에 포함되지 않으며, 연금으로 10년 이상 분할 수령 시 퇴직소득세의 30~40% 감면 혜택을 받습니다.
+                        </li>
+                        <li>
+                            <strong class="text-white">은퇴 직후 크레바스(소득 공백기) 대비:</strong> 60세 정년퇴직 후 국민연금 개시(65세) 전까지 5년 동안은 IRP 및 퇴직연금으로 생활비를 집중 인출하는 스케줄링이 유리합니다.
+                        </li>
+                    </ul>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // DOM Elements
+        const currentAgeInput = document.getElementById('currentAge');
+        const startYearInput = document.getElementById('startYear');
+        const retireAgeInput = document.getElementById('retireAge');
+        const retireAgeVal = document.getElementById('retireAgeVal');
+        
+        const irpSeedInput = document.getElementById('irpSeed');
+        const pensionSeedInput = document.getElementById('pensionSeed');
+        const irpMonthlyInput = document.getElementById('irpMonthly');
+        const pensionMonthlyInput = document.getElementById('pensionMonthly');
+        const irpAnnualText = document.getElementById('irpAnnualText');
+
+        const returnBeforeInput = document.getElementById('returnBefore');
+        const returnAfterInput = document.getElementById('returnAfter');
+        const avgSalaryInput = document.getElementById('avgSalary');
+        const payoutYearsSelect = document.getElementById('payoutYears');
+
+        const cardTotalCorpus = document.getElementById('cardTotalCorpus');
+        const cardCorpusDetail = document.getElementById('cardCorpusDetail');
+        const cardTotalMonthly = document.getElementById('cardTotalMonthly');
+        const cardMonthlyPeriod = document.getElementById('cardMonthlyPeriod');
+        const cardNationalPension = document.getElementById('cardNationalPension');
+        const cardWorkYears = document.getElementById('cardWorkYears');
+
+        const btnTabAccumulation = document.getElementById('btnTabAccumulation');
+        const btnTabPayout = document.getElementById('btnTabPayout');
+        const comparisonTable = document.getElementById('comparisonTable');
+
+        let chartInstance = null;
+        let activeTab = 'accumulation';
+
+        function formatKRW(valIn10k) {
+            if (isNaN(valIn10k)) return "0 원";
+            if (valIn10k >= 10000) {
+                const uk = Math.floor(valIn10k / 10000);
+                const remainder = Math.round(valIn10k % 10000);
+                if (remainder > 0) {
+                    return `${uk.toLocaleString()}억 ${remainder.toLocaleString()}만 원`;
+                }
+                return `${uk.toLocaleString()}억 원`;
+            }
+            return `${Math.round(valIn10k).toLocaleString()}만 원`;
+        }
+
+        function calculateRetirement() {
+            const currentYear = 2026;
+            const currentAge = parseInt(currentAgeInput.value) || 38;
+            const startYear = parseInt(startYearInput.value) || 2014;
+            const retireAge = parseInt(retireAgeInput.value) || 60;
+            
+            retireAgeVal.innerText = `${retireAge}세`;
+
+            const yearsToRetire = Math.max(1, retireAge - currentAge);
+            const retireYear = currentYear + yearsToRetire;
+
+            const irpSeed = parseFloat(irpSeedInput.value) || 0;
+            const pensionSeed = parseFloat(pensionSeedInput.value) || 0;
+            const totalSeed = irpSeed + pensionSeed;
+
+            const irpMonthly = parseFloat(irpMonthlyInput.value) || 0;
+            const pensionMonthly = parseFloat(pensionMonthlyInput.value) || 0;
+            const totalMonthlyAdd = irpMonthly + pensionMonthly;
+
+            irpAnnualText.innerText = `${(irpMonthly * 12).toLocaleString()}만 원`;
+
+            const rBefore = (parseFloat(returnBeforeInput.value) || 5.0) / 100;
+            const rAfter = (parseFloat(returnAfterInput.value) || 3.0) / 100;
+            const avgSalary = parseFloat(avgSalaryInput.value) || 350; // 평균 월 세전 급여
+            const payoutYears = parseInt(payoutYearsSelect.value) || 20;
+
+            // 1. Accumulation Calculation
+            let accumulationLabels = [];
+            let totalCorpusData = [];
+            let principalData = [];
+
+            let currentCorpus = totalSeed;
+            let currentPrincipal = totalSeed;
+
+            const rMonthlyBefore = rBefore / 12;
+
+            for (let i = 0; i <= yearsToRetire; i++) {
+                const age = currentAge + i;
+                accumulationLabels.push(`${age}세`);
+                totalCorpusData.push(Math.round(currentCorpus));
+                principalData.push(Math.round(currentPrincipal));
+
+                if (i < yearsToRetire) {
+                    for (let m = 0; m < 12; m++) {
+                        currentCorpus = (currentCorpus + totalMonthlyAdd) * (1 + rMonthlyBefore);
+                        currentPrincipal += totalMonthlyAdd;
+                    }
+                }
+            }
+
+            const finalCorpus = totalCorpusData[totalCorpusData.length - 1];
+
+            // 2. National Pension Estimation
+            const totalWorkYears = Math.max(10, retireYear - startYear);
+            
+            let nationalPensionMonthly = 0;
+            if (totalWorkYears >= 10) {
+                const baseFor350 = 85; // 기준월액 350만원 20년 가입 기준 약 85만원
+                const salaryRatio = avgSalary / 350;
+                const yearFactor = 1 + (totalWorkYears - 20) * 0.05;
+                nationalPensionMonthly = Math.round(baseFor350 * salaryRatio * yearFactor);
+            }
+
+            // 3. Private Pension Monthly Payout Calculation
+            function calcMonthlyAnnuity(corpus, years, returnRate) {
+                if (years <= 0 || corpus <= 0) return 0;
+                const rM = returnRate / 12;
+                const nMonths = years * 12;
+                if (rM === 0) return Math.round(corpus / nMonths);
+                const monthly = corpus * (rM * Math.pow(1 + rM, nMonths)) / (Math.pow(1 + rM, nMonths) - 1);
+                return Math.round(monthly);
+            }
+
+            const privatePensionMonthly = calcMonthlyAnnuity(finalCorpus, payoutYears, rAfter);
+            const grandTotalMonthly = privatePensionMonthly + nationalPensionMonthly;
+
+            // Update Metric Cards
+            cardTotalCorpus.innerText = formatKRW(finalCorpus);
+            cardCorpusDetail.innerText = `원금 ${formatKRW(currentPrincipal)} + 수익 ${formatKRW(finalCorpus - currentPrincipal)}`;
+
+            cardTotalMonthly.innerText = `${grandTotalMonthly.toLocaleString()}만 원`;
+            cardMonthlyPeriod.innerText = `사적(${privatePensionMonthly}만) + 국민(${nationalPensionMonthly}만)`;
+
+            cardNationalPension.innerText = `${nationalPensionMonthly.toLocaleString()}만 원`;
+            cardWorkYears.innerText = `총 근속기간 ${totalWorkYears}년 반영`;
+
+            // 4. Payout Phase Data
+            let payoutLabels = [];
+            let payoutBalanceData = [];
+
+            let remCorpus = finalCorpus;
+            const rMonthlyAfter = rAfter / 12;
+
+            for (let i = 0; i <= payoutYears; i++) {
+                const age = retireAge + i;
+                payoutLabels.push(`${age}세`);
+                payoutBalanceData.push(Math.max(0, Math.round(remCorpus)));
+
+                if (i < payoutYears) {
+                    for (let m = 0; m < 12; m++) {
+                        remCorpus = (remCorpus - privatePensionMonthly) * (1 + rMonthlyAfter);
+                    }
+                }
+            }
+
+            renderChart({
+                accumulationLabels,
+                totalCorpusData,
+                principalData,
+                payoutLabels,
+                payoutBalanceData,
+                retireAge
+            });
+
+            renderComparisonTable(finalCorpus, nationalPensionMonthly, rAfter);
+        }
+
+        // Render Table comparing payout durations
+        function renderComparisonTable(corpus, nationalMonthly, rAfter) {
+            const durations = [10, 15, 20, 25, 30];
+            comparisonTable.innerHTML = '';
+
+            function calcAnnuity(c, y, r) {
+                const rM = r / 12;
+                const n = y * 12;
+                if (rM === 0) return Math.round(c / n);
+                return Math.round(c * (rM * Math.pow(1 + rM, n)) / (Math.pow(1 + rM, n) - 1));
+            }
+
+            durations.forEach(d => {
+                const privMonthly = calcAnnuity(corpus, d, rAfter);
+                const totalM = privMonthly + nationalMonthly;
+                const isSelected = parseInt(payoutYearsSelect.value) === d;
+
+                const tr = document.createElement('tr');
+                tr.className = isSelected ? "bg-blue-50/80 font-bold text-blue-900" : "hover:bg-slate-50";
+                
+                tr.innerHTML = `
+                    <td class="p-2.5 sm:p-3 font-semibold">${d}년 수령 ${isSelected ? '<span class="text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded ml-1">선택됨</span>' : ''}</td>
+                    <td class="p-2.5 sm:p-3">${privMonthly.toLocaleString()}만 원</td>
+                    <td class="p-2.5 sm:p-3">${nationalMonthly.toLocaleString()}만 원</td>
+                    <td class="p-2.5 sm:p-3 text-blue-600 font-bold">${totalM.toLocaleString()}만 원</td>
+                    <td class="p-2.5 sm:p-3 text-slate-400 font-normal">${d <= 15 ? '단기 집중 인출' : '장기 안정 인출'}</td>
+                `;
+                comparisonTable.appendChild(tr);
+            });
+        }
+
+        function renderChart(data) {
+            const ctx = document.getElementById('pensionChart').getContext('2d');
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            if (activeTab === 'accumulation') {
+                chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.accumulationLabels,
+                        datasets: [
+                            {
+                                label: '총 예상 자산 (원금+수익)',
+                                data: data.totalCorpusData,
+                                borderColor: '#2563eb',
+                                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                                fill: true,
+                                tension: 0.3,
+                                borderWidth: 2.5
+                            },
+                            {
+                                label: '누적 순 납입 원금',
+                                data: data.principalData,
+                                borderColor: '#94a3b8',
+                                borderDash: [4, 4],
+                                fill: false,
+                                tension: 0.1,
+                                borderWidth: 1.5
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top', labels: { font: { family: 'Pretendard', size: 11 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${context.raw.toLocaleString()}만 원`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    font: { size: 10 },
+                                    callback: function(value) { return (value/10000).toFixed(1) + '억'; }
+                                }
+                            },
+                            x: {
+                                ticks: { font: { size: 10 } }
+                            }
+                        }
+                    }
+                });
+            } else {
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.payoutLabels,
+                        datasets: [
+                            {
+                                label: '은퇴 후 잔여 자산 추이',
+                                data: data.payoutBalanceData,
+                                backgroundColor: '#10b981',
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top', labels: { font: { family: 'Pretendard', size: 11 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `잔여 자산: ${context.raw.toLocaleString()}만 원`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    font: { size: 10 },
+                                    callback: function(value) { return (value/10000).toFixed(1) + '억'; }
+                                }
+                            },
+                            x: {
+                                ticks: { font: { size: 10 } }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        const inputs = [
+            currentAgeInput, startYearInput, retireAgeInput,
+            irpSeedInput, pensionSeedInput, irpMonthlyInput, pensionMonthlyInput,
+            returnBeforeInput, returnAfterInput, avgSalaryInput, payoutYearsSelect
+        ];
+
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateRetirement);
+            input.addEventListener('change', calculateRetirement);
+        });
+
+        btnTabAccumulation.addEventListener('click', () => {
+            activeTab = 'accumulation';
+            btnTabAccumulation.className = 'flex-1 sm:flex-none px-3 py-1.5 rounded-lg bg-white text-blue-600 shadow-sm transition text-center';
+            btnTabPayout.className = 'flex-1 sm:flex-none px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-slate-600 text-center';
+            calculateRetirement();
+        });
+
+        btnTabPayout.addEventListener('click', () => {
+            activeTab = 'payout';
+            btnTabPayout.className = 'flex-1 sm:flex-none px-3 py-1.5 rounded-lg bg-white text-emerald-600 shadow-sm transition text-center';
+            btnTabAccumulation.className = 'flex-1 sm:flex-none px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-slate-600 text-center';
+            calculateRetirement();
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            currentAgeInput.value = 38;
+            startYearInput.value = 2014;
+            retireAgeInput.value = 60;
+            irpSeedInput.value = 3500;
+            pensionSeedInput.value = 6000;
+            irpMonthlyInput.value = 50;
+            pensionMonthlyInput.value = 40;
+            returnBeforeInput.value = 5.0;
+            returnAfterInput.value = 3.0;
+            avgSalaryInput.value = 350;
+            payoutYearsSelect.value = 20;
+            calculateRetirement();
+        });
+
+        window.onload = function() {
+            calculateRetirement();
+        };
+    </script>
+</body>
+</html>
