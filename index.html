@@ -1,675 +1,1025 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>스마트 은퇴 연금 통합 시뮬레이터</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
-            -webkit-tap-highlight-color: transparent;
-        }
-        /* Custom scrollbars */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        .slider-thumb::-webkit-slider-thumb {
-            appearance: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #2563eb;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(37,99,235,0.4);
-            border: 2px solid #ffffff;
-        }
-        /* Mobile touch optimization */
-        input, select, button {
-            font-size: 16px !important; /* Prevents auto-zoom on iOS */
-        }
-        @media (min-width: 640px) {
-            input, select, button {
-                font-size: 0.875rem !important;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#120B0E" />
+  <title>MAAT 2026 | 웨스틴 조선 아리아 연말 미식 가이드</title>
+
+  <!-- Pretendard (한글 가독성 최적화) & Playfair Display (영문 타이틀) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'aria-bg': '#120B0E',
+            'aria-card': '#1C1216',
+            'aria-card-alt': '#161D1A',
+            'aria-gold': '#D4AF37',
+            'aria-gold-light': '#F3E5AB',
+            'aria-burgundy': '#7A1C24',
+            'aria-emerald': '#18362B',
+            'aria-text': '#F7F5F0',
+            'aria-muted': '#B8B0A8',
+          },
+          fontFamily: {
+            sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* 사파리 및 모바일 뷰포트/줄넘김/폰트 렌더링 완벽 최적화 */
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      background-color: #120B0E;
+      color: #F7F5F0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      background: radial-gradient(circle at 50% 0%, #2A131A 0%, #120B0E 48%, #0D1411 100%);
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* 사파리 입력창 줌 방지 (최소 16px) */
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+
+    /* 연말 은은한 골드 그라데이션 텍스트 */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 55%, #AA8220 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* 글래스모피즘 카드 */
+    .festive-card {
+      background: rgba(28, 18, 22, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .emerald-card {
+      background: linear-gradient(145deg, rgba(24, 54, 43, 0.72), rgba(18, 26, 23, 0.92));
+      border: 1px solid rgba(212, 175, 55, 0.28);
+    }
+
+    /* 가로 스크롤바 숨김 (필터 칩용) */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* 은은한 반짝임 애니메이션 */
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.25; transform: scale(0.95); }
+      50% { opacity: 0.9; transform: scale(1.1); }
+    }
+    .star-twinkle {
+      animation: twinkle 3.6s ease-in-out infinite;
+    }
+    .star-twinkle-delay {
+      animation: twinkle 4.4s ease-in-out 1.5s infinite;
+    }
+
+    /* 하단 네비게이션 Safe Area 대응 */
+    .bottom-nav-safe {
+      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    }
+    .main-bottom-space {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    }
+    .header-top-safe {
+      padding-top: calc(16px + env(safe-area-inset-top, 0px));
+    }
+  </style>
 </head>
-<body class="min-h-screen pb-12 antialiased selection:bg-blue-100 selection:text-blue-700">
-    <header class="bg-slate-900 text-white shadow-md border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 shrink-0">
-                    <i class="fa-solid fa-piggy-bank text-lg sm:text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-base sm:text-lg leading-tight">스마트 은퇴 연금 시뮬레이터</h1>
-                    <p class="text-[11px] sm:text-xs text-slate-400">IRP · 퇴직연금 · 국민연금 통합 수령액 추정</p>
-                </div>
-            </div>
-            <div class="hidden sm:flex items-center space-x-2 text-xs bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="text-slate-300">실시간 연산 모드</span>
-            </div>
+<body class="selection:bg-aria-gold selection:text-aria-bg">
+
+  <!-- 상단 연말 배경 장식 파티클 (SVG) -->
+  <div class="pointer-events-none fixed inset-0 overflow-hidden z-0" aria-hidden="true">
+    <svg class="absolute top-6 right-6 w-5 h-5 text-aria-gold star-twinkle" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 1L14.8 9.2L23 12L14.8 14.8L12 23L9.2 14.8L1 12L9.2 9.2L12 1Z"/>
+    </svg>
+    <svg class="absolute top-24 left-5 w-3.5 h-3.5 text-aria-gold-light star-twinkle-delay" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 1L14.8 9.2L23 12L14.8 14.8L12 23L9.2 14.8L1 12L9.2 9.2L12 1Z"/>
+    </svg>
+    <div class="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-aria-burgundy/20 blur-3xl"></div>
+    <div class="absolute top-1/3 -left-24 w-64 h-64 rounded-full bg-aria-emerald/25 blur-3xl"></div>
+  </div>
+
+  <!-- 메인 컨테이너 (모바일 최적화 폭 제한 및 중앙 정렬) -->
+  <div class="relative z-10 max-w-lg mx-auto min-h-dvh flex flex-col">
+
+    <!-- 헤더 영역 -->
+    <header class="header-top-safe px-5 pb-4 border-b border-aria-gold/20 bg-aria-bg/80 backdrop-blur-md sticky top-0 z-30">
+      <div class="flex items-center justify-between gap-2">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-aria-burgundy/80 text-aria-gold-light border border-aria-gold/30">
+              YEAR-END GATHERING
+            </span>
+            <span id="dday-badge" class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-aria-gold/20 text-aria-gold border border-aria-gold/40">
+              D-10
+            </span>
+          </div>
+          <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-tight gold-gradient-text mt-1 leading-tight">
+            MAAT 2026
+          </h1>
+          <p class="text-xs text-aria-muted mt-0.5 leading-snug">
+            웨스틴 조선 서울 <span class="text-aria-gold-light font-semibold">아리아(ARIA)</span> · 12월 5일(토) 주말 디너
+          </p>
         </div>
+
+        <!-- 찜한 메뉴 카운터 뱃지 버튼 -->
+        <button
+          type="button"
+          onclick="switchTab('menu')"
+          class="shrink-0 flex flex-col items-center justify-center px-3 py-2 rounded-2xl festive-card active:scale-95 transition-transform"
+          aria-label="찜한 시그니처 메뉴 보기"
+        >
+          <span class="text-[10px] text-aria-muted font-medium">MY PICK</span>
+          <div class="flex items-center gap-1 mt-0.5">
+            <span class="text-aria-gold text-sm">★</span>
+            <span id="header-pick-count" class="text-sm font-bold text-aria-gold-light">0</span>
+          </div>
+        </button>
+      </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8">
-            
-            <!-- Left Panel: Input Controls -->
-            <section class="lg:col-span-5 space-y-4 sm:space-y-6">
-                <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200">
-                    <div class="flex items-center justify-between pb-3 sm:pb-4 mb-4 border-b border-slate-100">
-                        <h2 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-sliders text-blue-600"></i> 은퇴 설계 조건 입력
-                        </h2>
-                        <button id="resetBtn" class="text-xs text-slate-500 hover:text-blue-600 active:scale-95 transition flex items-center gap-1 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg">
-                            <i class="fa-solid fa-rotate-right"></i> 초기화
-                        </button>
-                    </div>
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="flex-1 px-4 pt-4 main-bottom-space">
 
-                    <form id="pensionForm" class="space-y-4 sm:space-y-5" onsubmit="event.preventDefault();">
-                        
-                        <!-- 1. 기본 프로필 정보 -->
-                        <div class="bg-slate-50/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 space-y-3.5">
-                            <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 1. 나이 및 입사 시기
-                            </h3>
-                            
-                            <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">현재 나이 (세)</label>
-                                    <input type="number" id="currentAge" min="20" max="70" value="38" 
-                                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">첫 입사 연도</label>
-                                    <input type="number" id="startYear" min="1980" max="2026" value="2014" 
-                                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                </div>
-                            </div>
+      <!-- ========================================== -->
+      <!-- TAB 1: 전략 & 동선 (Buffet Strategy)         -->
+      <!-- ========================================== -->
+      <section id="tab-strategy" class="tab-panel space-y-4">
+        
+        <!-- 핵심 브리핑 카드 -->
+        <div class="emerald-card rounded-2xl p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <span class="text-xs font-semibold text-aria-gold tracking-wide">2026. 12. 05 (SAT) WEEKEND DINNER</span>
+              <h2 class="text-lg font-bold text-aria-text mt-1 leading-snug">
+                주말 디너 뽕뽑기 황금 동선
+              </h2>
+            </div>
+            <span class="text-2xl" role="img" aria-label="샴페인">🥂</span>
+          </div>
+          <p class="text-xs sm:text-sm text-aria-text/90 mt-2 leading-relaxed">
+            아리아는 <strong class="text-aria-gold-light font-semibold">양갈비·랍스터·대게·중식</strong> 단가가 압도적입니다. 샐러드와 초밥(밥)으로 배를 채우지 말고, 입장 직후 메인 그릴과 해산물부터 선점하세요.
+          </p>
 
-                            <div>
-                                <div class="flex justify-between items-center mb-1">
-                                    <label class="text-xs font-semibold text-slate-700">예상 은퇴(정년) 나이</label>
-                                    <span id="retireAgeVal" class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">60세</span>
-                                </div>
-                                <input type="range" id="retireAge" min="50" max="70" value="60" step="1"
-                                    class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider-thumb">
-                            </div>
-                        </div>
-
-                        <!-- 2. 시드머니 (현재 잔액) -->
-                        <div class="bg-slate-50/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 space-y-3.5">
-                            <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 2. 현재 시드머니 (기적립금)
-                            </h3>
-                            
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">개인 IRP 잔액</label>
-                                    <div class="relative">
-                                        <input type="number" id="irpSeed" step="100" value="3500" 
-                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-10 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원</span>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">퇴직연금(DB/DC) 잔액</label>
-                                    <div class="relative">
-                                        <input type="number" id="pensionSeed" step="100" value="6000" 
-                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-10 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3. 미래 추가 적립액 -->
-                        <div class="bg-slate-50/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 space-y-3.5">
-                            <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 3. 은퇴 전까지 매월 납입할 금액
-                            </h3>
-                            
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">개인 IRP 월 적립</label>
-                                    <div class="relative">
-                                        <input type="number" id="irpMonthly" step="5" value="50" 
-                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-14 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원/월</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-400 mt-1">연간 <span id="irpAnnualText" class="font-medium text-slate-600">600만 원</span></p>
-                                </div>
-
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">퇴직연금 월 추가 적립</label>
-                                    <div class="relative">
-                                        <input type="number" id="pensionMonthly" step="5" value="40" 
-                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-14 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원/월</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-400 mt-1">회사+본인 부담금 평균</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 4. 수익률 & 국민연금 조건 -->
-                        <div class="bg-slate-50/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 space-y-3.5">
-                            <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-blue-600"></span> 4. 수익률 및 국민연금 조건
-                            </h3>
-                            
-                            <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">은퇴 전 운용수익률</label>
-                                    <div class="relative">
-                                        <input type="number" id="returnBefore" step="0.5" value="5.0" min="0" max="20"
-                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-8 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">%</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">은퇴 후 운용수익률</label>
-                                    <div class="relative">
-                                        <input type="number" id="returnAfter" step="0.5" value="3.0" min="0" max="15"
-                                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-8 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                        <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">%</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 국민연금 용어 개선 부분 -->
-                            <div class="bg-blue-50/70 p-3 rounded-lg border border-blue-100 space-y-1.5">
-                                <div class="flex items-center justify-between">
-                                    <label class="text-xs font-bold text-blue-900 flex items-center gap-1">
-                                        <i class="fa-solid fa-circle-question text-blue-500"></i> 재직 기간 평균 월소득 (세전 급여)
-                                    </label>
-                                </div>
-                                <div class="relative">
-                                    <input type="number" id="avgSalary" step="10" value="350" 
-                                        class="w-full bg-white border border-blue-200 rounded-lg pl-3 pr-12 py-2 text-sm font-bold text-blue-900 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                    <span class="absolute right-3 top-2.5 text-xs text-slate-500 font-medium">만원</span>
-                                </div>
-                                <p class="text-[11px] text-blue-700/90 leading-relaxed font-normal">
-                                    💡 <strong>이 값이 무엇인가요?</strong><br>
-                                    내가 직장생활 전체 동안 벌게 되는(벌었던) <strong>평균 월 세전 급여</strong>입니다. (연봉 / 12)<br>
-                                    시스템이 이 수치를 기반으로 <u>65세 이후 평생 받게 될 국민연금을 자동 계산</u>합니다.
-                                </p>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">사적연금(IRP/퇴직) 희망 수령 기간</label>
-                                <select id="payoutYears" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                    <option value="15">15년 (은퇴 후 15년간 집중 수령)</option>
-                                    <option value="20" selected>20년 (60세 은퇴 시 80세까지)</option>
-                                    <option value="25">25년 (60세 은퇴 시 85세까지)</option>
-                                    <option value="30">30년 (60세 은퇴 시 90세까지)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-            </section>
-
-            <!-- Right Panel: Calculation Results & Visualizations -->
-            <section class="lg:col-span-7 space-y-4 sm:space-y-6">
-                
-                <!-- Summary Key Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm relative overflow-hidden">
-                        <div class="absolute right-2 top-2 text-slate-100 pointer-events-none">
-                            <i class="fa-solid fa-vault text-5xl sm:text-6xl"></i>
-                        </div>
-                        <p class="text-xs font-semibold text-slate-500">은퇴 시점 총 자산 (추정)</p>
-                        <h3 id="cardTotalCorpus" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1 sm:mt-2">0 원</h3>
-                        <p id="cardCorpusDetail" class="text-[11px] sm:text-xs text-blue-600 mt-1 font-medium truncate">IRP + 퇴직연금 원리금</p>
-                    </div>
-
-                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-4 sm:p-5 text-white shadow-lg shadow-blue-500/20 relative overflow-hidden">
-                        <div class="absolute right-2 top-2 text-white/10 pointer-events-none">
-                            <i class="fa-solid fa-money-bill-wave text-5xl sm:text-6xl"></i>
-                        </div>
-                        <p class="text-xs font-medium text-blue-100">은퇴 후 예상 월 총 수령액</p>
-                        <h3 id="cardTotalMonthly" class="text-xl sm:text-2xl font-extrabold mt-1 sm:mt-2">0 만원</h3>
-                        <p id="cardMonthlyPeriod" class="text-[11px] sm:text-xs text-blue-200 mt-1 truncate">65세 이후 사적+국민연금 합산</p>
-                    </div>
-
-                    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm relative overflow-hidden">
-                        <div class="absolute right-2 top-2 text-slate-100 pointer-events-none">
-                            <i class="fa-solid fa-shield-halved text-5xl sm:text-6xl"></i>
-                        </div>
-                        <p class="text-xs font-semibold text-slate-500">국민연금 월 수령액 (65세~)</p>
-                        <h3 id="cardNationalPension" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1 sm:mt-2">0 만원</h3>
-                        <p id="cardWorkYears" class="text-[11px] sm:text-xs text-emerald-600 mt-1 font-medium truncate">총 가입 기간 N년 기준</p>
-                    </div>
-                </div>
-
-                <!-- Main Visual Chart Tabs -->
-                <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 sm:pb-4 border-b border-slate-100 gap-2.5">
-                        <div>
-                            <h3 class="text-sm sm:text-base font-bold text-slate-900">은퇴 연금 시뮬레이션 그래프</h3>
-                            <p class="text-xs text-slate-500">자산 축적 과 수령 기간 동안의 잔액 추이 분석</p>
-                        </div>
-                        <div class="flex bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600 w-full sm:w-auto">
-                            <button id="btnTabAccumulation" class="flex-1 sm:flex-none px-3 py-1.5 rounded-lg bg-white text-blue-600 shadow-sm transition text-center">
-                                자산 불리기 (은퇴 전)
-                            </button>
-                            <button id="btnTabPayout" class="flex-1 sm:flex-none px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-slate-600 text-center">
-                                연금 타기 (은퇴 후)
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="relative w-full h-[260px] sm:h-[320px]">
-                        <canvas id="pensionChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Breakdown & Timeline Table -->
-                <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200 space-y-3 sm:space-y-4">
-                    <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-blue-600"></i> 수령 기간별 월 수령액 비교
-                    </h3>
-                    <div class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-                        <table class="w-full text-left text-xs min-w-[500px]">
-                            <thead>
-                                <tr class="bg-slate-50 text-slate-600 border-b border-slate-200">
-                                    <th class="p-2.5 sm:p-3 font-semibold">구분 (수령 기간)</th>
-                                    <th class="p-2.5 sm:p-3 font-semibold">사적연금 월 수령액</th>
-                                    <th class="p-2.5 sm:p-3 font-semibold">국민연금 월 수령액</th>
-                                    <th class="p-2.5 sm:p-3 font-semibold text-blue-600">총 월 수령액 (65세 이후)</th>
-                                    <th class="p-2.5 sm:p-3 font-semibold">비고</th>
-                                </tr>
-                            </thead>
-                            <tbody id="comparisonTable" class="divide-y divide-slate-100 text-slate-700">
-                                <!-- Populated dynamically by JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Tax & Strategy Insights Box -->
-                <div class="bg-slate-900 text-slate-200 rounded-2xl p-4 sm:p-6 border border-slate-800 space-y-3">
-                    <div class="flex items-center gap-2 text-amber-400 font-bold text-xs sm:text-sm">
-                        <i class="fa-solid fa-lightbulb text-base"></i>
-                        <span>스마트 절세 & 연금 가이드 팁</span>
-                    </div>
-                    <ul class="text-xs space-y-2 text-slate-300 leading-relaxed list-disc pl-4">
-                        <li>
-                            <strong class="text-white">사적연금 세금 한도 (연 1,500만 원):</strong> 개인 IRP 세액공제분 및 운용수익 수령액이 연 1,500만 원(월 125만 원)을 넘으면 종합과세 또는 16.5% 분리과세를 선택해야 합니다.
-                        </li>
-                        <li>
-                            <strong class="text-white">퇴직금 원금 절세 혜택:</strong> 퇴직연금의 순수 퇴직금 원금은 1,500만 원 한도 산정에 포함되지 않으며, 연금으로 10년 이상 분할 수령 시 퇴직소득세의 30~40% 감면 혜택을 받습니다.
-                        </li>
-                        <li>
-                            <strong class="text-white">은퇴 직후 크레바스(소득 공백기) 대비:</strong> 60세 정년퇴직 후 국민연금 개시(65세) 전까지 5년 동안은 IRP 및 퇴직연금으로 생활비를 집중 인출하는 스케줄링이 유리합니다.
-                        </li>
-                    </ul>
-                </div>
-
-            </section>
+          <!-- 입장 전 3대 원칙 -->
+          <div class="grid grid-cols-3 gap-2 mt-3.5 pt-3 border-t border-aria-gold/20 text-center">
+            <div class="bg-black/25 rounded-xl p-2">
+              <div class="text-xs font-bold text-aria-gold-light">15분 전 도착</div>
+              <div class="text-[11px] text-aria-muted mt-0.5 leading-tight">LL층 대기 줄 선점</div>
+            </div>
+            <div class="bg-black/25 rounded-xl p-2">
+              <div class="text-xs font-bold text-aria-gold-light">소량 다접시</div>
+              <div class="text-[11px] text-aria-muted mt-0.5 leading-tight">한 접시 3~4종만</div>
+            </div>
+            <div class="bg-black/25 rounded-xl p-2">
+              <div class="text-xs font-bold text-aria-gold-light">리필 타이밍</div>
+              <div class="text-[11px] text-aria-muted mt-0.5 leading-tight">갓 구운 트레이 공략</div>
+            </div>
+          </div>
         </div>
+
+        <!-- 인터랙티브 황금 접시 플랜 (체크리스트 포함) -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between px-1">
+            <h3 class="text-sm font-bold text-aria-gold-light flex items-center gap-1.5">
+              <span>🍽️</span> 실전 접시 공략 순서 (체크 가능)
+            </h3>
+            <button type="button" onclick="resetPlateChecks()" class="text-xs text-aria-muted underline hover:text-aria-gold">
+              체크 초기화
+            </button>
+          </div>
+
+          <div id="plate-plan-container" class="space-y-3">
+            <!-- JS에서 동적 렌더링 -->
+          </div>
+        </div>
+
+        <!-- 피해야 할 포만감 함정 경고 카드 -->
+        <div class="rounded-2xl p-4 bg-aria-burgundy/25 border border-aria-burgundy/60">
+          <div class="flex items-center gap-2 text-aria-gold-light font-bold text-sm">
+            <span>⚠️</span>
+            <h3>피해야 할 '포만감 함정' 5가지</h3>
+          </div>
+          <p class="text-xs text-aria-text/85 mt-1.5 leading-relaxed">
+            아래 메뉴는 위장 용량을 순식간에 차지해 고단가 메뉴 섭취를 방해합니다.
+          </p>
+          <div class="flex flex-wrap gap-1.5 mt-2.5">
+            <span class="px-2.5 py-1 rounded-lg bg-black/40 text-xs text-aria-text border border-white/10">🍕 피자 & 파스타</span>
+            <span class="px-2.5 py-1 rounded-lg bg-black/40 text-xs text-aria-text border border-white/10">🍣 밥 많은 초밥·롤</span>
+            <span class="px-2.5 py-1 rounded-lg bg-black/40 text-xs text-aria-text border border-white/10">🍚 볶음밥 & 난(Naan)</span>
+            <span class="px-2.5 py-1 rounded-lg bg-black/40 text-xs text-aria-text border border-white/10">🥖 식전빵 & 감자튀김</span>
+            <span class="px-2.5 py-1 rounded-lg bg-black/40 text-xs text-aria-text border border-white/10">🥤 탄산음료(제로 포함)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: 시그니처 톱 메뉴 (Aria Must-Eat)     -->
+      <!-- ========================================== -->
+      <section id="tab-menu" class="tab-panel hidden space-y-4">
+        <div class="festive-card rounded-2xl p-4">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <h2 class="text-lg font-bold text-aria-gold-light">아리아 시그니처 톱 메뉴</h2>
+              <p class="text-xs text-aria-muted mt-0.5">별표(★)를 눌러 나만의 공략 리스트를 만드세요.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-xl bg-aria-gold/15 border border-aria-gold/30 text-xs font-semibold text-aria-gold">
+              주말 디너 기준
+            </span>
+          </div>
+
+          <!-- 카테고리 필터 버튼 -->
+          <div class="flex gap-1.5 overflow-x-auto no-scrollbar mt-3.5 pb-0.5" id="menu-filter-bar">
+            <button type="button" data-filter="all" onclick="filterMenu('all')" class="menu-filter-btn active shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold bg-aria-gold text-aria-bg transition-colors">
+              전체
+            </button>
+            <button type="button" data-filter="grill" onclick="filterMenu('grill')" class="menu-filter-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-aria-text transition-colors">
+              그릴·육류
+            </button>
+            <button type="button" data-filter="seafood" onclick="filterMenu('seafood')" class="menu-filter-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-aria-text transition-colors">
+              해산물·일식
+            </button>
+            <button type="button" data-filter="chinese" onclick="filterMenu('chinese')" class="menu-filter-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-aria-text transition-colors">
+              중식·딤섬
+            </button>
+            <button type="button" data-filter="dessert" onclick="filterMenu('dessert')" class="menu-filter-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-aria-text transition-colors">
+              디저트
+            </button>
+          </div>
+        </div>
+
+        <!-- 메뉴 카드 리스트 -->
+        <div id="menu-cards-container" class="space-y-3">
+          <!-- JS에서 동적 렌더링 -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: 출발지별 이동 가이드 (4 Routes)      -->
+      <!-- ========================================== -->
+      <section id="tab-route" class="tab-panel hidden space-y-4">
+        
+        <!-- 목적지 요약 헤더 -->
+        <div class="emerald-card rounded-2xl p-4">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <span class="text-[11px] font-bold tracking-wider text-aria-gold uppercase">DESTINATION</span>
+              <h2 class="text-base sm:text-lg font-bold text-aria-text mt-0.5">
+                웨스틴 조선 서울 (LL층 아리아)
+              </h2>
+              <p class="text-xs text-aria-muted mt-0.5">
+                서울 중구 소공로 106 · 시청역 6번 / 을지로입구역 7·8번 출구
+              </p>
+            </div>
+            <button
+              type="button"
+              onclick="copyAddress()"
+              class="shrink-0 px-3 py-2 rounded-xl bg-aria-gold/20 border border-aria-gold/40 text-xs font-semibold text-aria-gold-light active:scale-95 transition-transform"
+            >
+              주소 복사
+            </button>
+          </div>
+
+          <!-- 주말 디너 타임 기준 시간 안내 -->
+          <div class="mt-3 pt-3 border-t border-aria-gold/20 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <span class="text-aria-muted">주말 디너 운영 안내:</span>
+            <span class="font-semibold text-aria-gold-light">1부 17:20~19:20 / 2부 19:50~21:50</span>
+          </div>
+        </div>
+
+        <!-- 4개 출발지 선택 탭 -->
+        <div>
+          <label class="block text-xs font-semibold text-aria-gold-light mb-2 px-1">
+            📍 본인의 출발역을 선택하세요
+          </label>
+          <div class="grid grid-cols-2 gap-2" id="origin-selector">
+            <button type="button" data-origin="osan" onclick="selectOrigin('osan')" class="origin-btn p-3 rounded-2xl text-left border transition-all">
+              <div class="text-[11px] text-aria-muted">경기 남부</div>
+              <div class="text-sm font-bold mt-0.5">오산역 출발</div>
+            </button>
+            <button type="button" data-origin="guri" onclick="selectOrigin('guri')" class="origin-btn p-3 rounded-2xl text-left border transition-all">
+              <div class="text-[11px] text-aria-muted">경기 동부 · 8호선</div>
+              <div class="text-sm font-bold mt-0.5">구리(장자호수공원역)</div>
+            </button>
+            <button type="button" data-origin="pangyo" onclick="selectOrigin('pangyo')" class="origin-btn p-3 rounded-2xl text-left border transition-all">
+              <div class="text-[11px] text-aria-muted">성남 · 신분당선</div>
+              <div class="text-sm font-bold mt-0.5">판교역 출발</div>
+            </button>
+            <button type="button" data-origin="sinseol" onclick="selectOrigin('sinseol')" class="origin-btn p-3 rounded-2xl text-left border transition-all">
+              <div class="text-[11px] text-aria-muted">서울 동북 · 1호선</div>
+              <div class="text-sm font-bold mt-0.5">신설동역 출발</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 선택된 출발지 상세 경로 카드 -->
+        <div id="route-detail-container" class="festive-card rounded-2xl p-4 space-y-4">
+          <!-- JS에서 동적 렌더링 -->
+        </div>
+
+        <!-- 외부 지도 앱 바로가기 -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <a
+            href="https://map.naver.com/p/search/%EC%9B%A8%EC%8A%A4%ED%8B%B4%20%EC%A1%B0%EC%84%A0%20%EC%84%9C%EC%9A%B8%20%EC%95%84%EB%A6%AC%EC%95%84"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-1.5 py-3 px-3 rounded-2xl bg-[#03C75A]/20 border border-[#03C75A]/40 text-xs font-bold text-[#4AE38C] active:scale-95 transition-transform"
+          >
+            <span>N</span> 네이버 지도 열기
+          </a>
+          <a
+            href="https://map.kakao.com/link/search/%EC%9B%A8%EC%8A%A4%ED%8B%B4%20%EC%A1%B0%EC%84%A0%20%EC%84%9C%EC%9A%B8%20%EC%95%84%EB%A6%AC%EC%95%84"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-1.5 py-3 px-3 rounded-2xl bg-[#FEE500]/15 border border-[#FEE500]/40 text-xs font-bold text-[#FEE500] active:scale-95 transition-transform"
+          >
+            <span>K</span> 카카오맵 열기
+          </a>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 4: 모임 체크 & 할인 팁 (Info & Tips)     -->
+      <!-- ========================================== -->
+      <section id="tab-info" class="tab-panel hidden space-y-4">
+        
+        <!-- D-Day 카운트다운 배너 -->
+        <div class="emerald-card rounded-2xl p-4 text-center">
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-aria-gold/20 text-aria-gold text-xs font-bold">
+            2026년 12월 5일 (토) 연말 모임
+          </span>
+          <h2 id="dday-title" class="font-serif text-2xl font-bold gold-gradient-text mt-2">
+            D-10
+          </h2>
+          <p class="text-xs text-aria-text/85 mt-1">
+            웨스틴 조선 서울 아리아 · LL층(저층 로비)
+          </p>
+        </div>
+
+        <!-- 모임 준비 체크리스트 -->
+        <div class="festive-card rounded-2xl p-4 space-y-3">
+          <h3 class="text-sm font-bold text-aria-gold-light flex items-center gap-1.5">
+            <span>✅</span> 4인 모임 필수 체크리스트
+          </h3>
+          <div id="prep-checklist" class="space-y-2">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+
+        <!-- 결제 할인 & 주차 꿀팁 -->
+        <div class="festive-card rounded-2xl p-4 space-y-3">
+          <h3 class="text-sm font-bold text-aria-gold-light flex items-center gap-1.5">
+            <span>💳</span> 결제 할인 & 주차 이용 팁
+          </h3>
+          <div class="space-y-2.5 text-xs leading-relaxed">
+            <div class="p-3 rounded-xl bg-black/30 border border-white/10">
+              <div class="font-bold text-aria-gold-light">1. 사전 식사권 & 포인트 활용</div>
+              <p class="text-aria-text/85 mt-1">
+                현대카드 M포인트몰(50% 포인트 결제 식사권), SSG닷컴/네이버 예약 프로모션, 신세계상품권 결제 가능 여부를 방문 전 미리 확인하면 체감 단가를 크게 낮출 수 있습니다.
+              </p>
+            </div>
+            <div class="p-3 rounded-xl bg-black/30 border border-white/10">
+              <div class="font-bold text-aria-gold-light">2. 제휴 신용카드 현장 할인</div>
+              <p class="text-aria-text/85 mt-1">
+                결제 전 보유 중인 프리미엄 카드(신한·삼성·현대·우리·KB 등)의 조선호텔 식음료(F&B) 제휴 할인 적용 여부를 카운터에 꼭 문의하세요.
+              </p>
+            </div>
+            <div class="p-3 rounded-xl bg-black/30 border border-white/10">
+              <div class="font-bold text-aria-gold-light">3. 주차 등록 안내</div>
+              <p class="text-aria-text/85 mt-1">
+                식사 후 계산 시 차량 번호를 말씀하시면 무료 주차 등록이 가능합니다. 토요일 오후에는 호텔 주변(명동·을지로) 정체가 심하므로 가급적 지하철 이용을 권장합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 드레스 코드 & 컨디션 팁 -->
+        <div class="festive-card rounded-2xl p-4">
+          <h3 class="text-sm font-bold text-aria-gold-light flex items-center gap-1.5">
+            <span>👔</span> 뷔페 최적화 복장 & 컨디션 팁
+          </h3>
+          <ul class="mt-2 space-y-1.5 text-xs text-aria-text/85 leading-relaxed list-disc list-inside">
+            <li>연말 호텔 분위기에 어울리면서도 허리 조임이 적은 니트·원피스·밴딩 슬랙스 추천</li>
+            <li>당일 점심은 12시~1시 사이 가볍게(계란, 샐러드, 요거트 등) 섭취해 위장 예열</li>
+            <li>식사 중 탄산음료 대신 따뜻한 차나 생수를 마셔야 소화 속도가 빨라짐</li>
+          </ul>
+        </div>
+      </section>
+
     </main>
 
-    <script>
-        // DOM Elements
-        const currentAgeInput = document.getElementById('currentAge');
-        const startYearInput = document.getElementById('startYear');
-        const retireAgeInput = document.getElementById('retireAge');
-        const retireAgeVal = document.getElementById('retireAgeVal');
-        
-        const irpSeedInput = document.getElementById('irpSeed');
-        const pensionSeedInput = document.getElementById('pensionSeed');
-        const irpMonthlyInput = document.getElementById('irpMonthly');
-        const pensionMonthlyInput = document.getElementById('pensionMonthly');
-        const irpAnnualText = document.getElementById('irpAnnualText');
+    <!-- 하단 고정 탭 네비게이션 (엄지손가락 터치 최적화) -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-aria-bg/95 backdrop-blur-lg border-t border-aria-gold/25 bottom-nav-safe">
+      <div class="max-w-lg mx-auto grid grid-cols-4 gap-1 px-2 pt-2">
+        <button type="button" data-tab="strategy" onclick="switchTab('strategy')" class="nav-tab-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-aria-gold transition-colors">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+          </svg>
+          <span class="text-[11px] font-bold">공략전략</span>
+        </button>
 
-        const returnBeforeInput = document.getElementById('returnBefore');
-        const returnAfterInput = document.getElementById('returnAfter');
-        const avgSalaryInput = document.getElementById('avgSalary');
-        const payoutYearsSelect = document.getElementById('payoutYears');
+        <button type="button" data-tab="menu" onclick="switchTab('menu')" class="nav-tab-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-aria-muted transition-colors">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+          </svg>
+          <span class="text-[11px] font-semibold">시그니처</span>
+        </button>
 
-        const cardTotalCorpus = document.getElementById('cardTotalCorpus');
-        const cardCorpusDetail = document.getElementById('cardCorpusDetail');
-        const cardTotalMonthly = document.getElementById('cardTotalMonthly');
-        const cardMonthlyPeriod = document.getElementById('cardMonthlyPeriod');
-        const cardNationalPension = document.getElementById('cardNationalPension');
-        const cardWorkYears = document.getElementById('cardWorkYears');
+        <button type="button" data-tab="route" onclick="switchTab('route')" class="nav-tab-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-aria-muted transition-colors">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span class="text-[11px] font-semibold">출발동선</span>
+        </button>
 
-        const btnTabAccumulation = document.getElementById('btnTabAccumulation');
-        const btnTabPayout = document.getElementById('btnTabPayout');
-        const comparisonTable = document.getElementById('comparisonTable');
+        <button type="button" data-tab="info" onclick="switchTab('info')" class="nav-tab-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-aria-muted transition-colors">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="text-[11px] font-semibold">할인·체크</span>
+        </button>
+      </div>
+    </nav>
 
-        let chartInstance = null;
-        let activeTab = 'accumulation';
+    <!-- 토스트 메시지 박스 (alert 대체) -->
+    <div id="toast-box" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-opacity duration-300">
+      <div class="px-4 py-2.5 rounded-full bg-aria-gold text-aria-bg text-xs font-bold shadow-xl whitespace-nowrap">
+        주소가 클립보드에 복사되었습니다!
+      </div>
+    </div>
 
-        function formatKRW(valIn10k) {
-            if (isNaN(valIn10k)) return "0 원";
-            if (valIn10k >= 10000) {
-                const uk = Math.floor(valIn10k / 10000);
-                const remainder = Math.round(valIn10k % 10000);
-                if (remainder > 0) {
-                    return `${uk.toLocaleString()}억 ${remainder.toLocaleString()}만 원`;
-                }
-                return `${uk.toLocaleString()}억 원`;
-            }
-            return `${Math.round(valIn10k).toLocaleString()}만 원`;
-        }
+  </div>
 
-        function calculateRetirement() {
-            const currentYear = 2026;
-            const currentAge = parseInt(currentAgeInput.value) || 38;
-            const startYear = parseInt(startYearInput.value) || 2014;
-            const retireAge = parseInt(retireAgeInput.value) || 60;
-            
-            retireAgeVal.innerText = `${retireAge}세`;
+  <script>
+    // ==========================================
+    // 1. 데이터 정의 (2026.12.05 웨스틴 조선 아리아)
+    // ==========================================
+    const PLATE_STEPS = [
+      {
+        id: 'plate-0',
+        step: 'PRE-GAME',
+        title: '입장 직후 3분 스캔 & 애피타이저',
+        badge: '워밍업',
+        tip: '샐러드바에서 배 채우지 말고 구운 채소·훈제연어·수프 소량으로 위벽만 보호하세요.',
+        items: ['전체 섹션 한 바퀴 스캔', '훈제연어 & 카르파초 소량', '트러플 양송이 수프 1/3컵']
+      },
+      {
+        id: 'plate-1',
+        step: 'PLATE 01',
+        title: '그릴 & 해산물 메인 선점 (최우선)',
+        badge: '단가 1위',
+        tip: '오픈 직후 줄이 가장 먼저 생기는 코너입니다. 갓 구워진 양갈비와 랍스터·대게부터 확보하세요.',
+        items: ['프렌치 랙 양갈비 (민트젤리)', '랍스터 테일 구이 & 대게 다리', '소고기 안심/채끝 스테이크', 'LA갈비 & 전복구이']
+      },
+      {
+        id: 'plate-2',
+        step: 'PLATE 02',
+        title: '조선호텔 중식 & 라이브 딤섬',
+        badge: '시그니처',
+        tip: '중식당 홍연 노하우가 담긴 코너입니다. 볶음밥·면은 건너뛰고 해산물 요리와 딤섬만 공략하세요.',
+        items: ['전가복 (전복·해삼 듬뿍)', '북경오리 (베이징덕)', '칠리새우 & 팔보채', '하가우 & 육즙 소룡포']
+      },
+      {
+        id: 'plate-3',
+        step: 'PLATE 03',
+        title: '고급 사시미 & 즉석 백짬뽕 리셋',
+        badge: '입맛 리셋',
+        tip: '초밥(밥) 대신 사시미만 드시고, 느끼함이 올라올 때 즉석 해산물/냉이 백짬뽕 국물로 위장을 리셋하세요.',
+        items: ['참치 뱃살·단새우 사시미', '즉석 해산물/냉이 백짬뽕', '탄두리 연어/치킨 (난 제외)']
+      },
+      {
+        id: 'plate-4',
+        step: 'PLATE 04',
+        title: '앵콜 리필 & 조선델리 디저트',
+        badge: '완벽 마무리',
+        tip: '가장 맛있었던 메인 1~2가지를 리필한 뒤, 파인애플·키위(단백질 소화)와 조선델리 케이크로 마무리합니다.',
+        items: ['최애 메인 메뉴 1회 앵콜', '조선델리 딸기 생크림 케이크', '생과일 (파인애플·키위·망고)', 'TWG 홍차 또는 아메리카노']
+      }
+    ];
 
-            const yearsToRetire = Math.max(1, retireAge - currentAge);
-            const retireYear = currentYear + yearsToRetire;
+    const SIGNATURE_MENUS = [
+      {
+        id: 'm1',
+        category: 'grill',
+        categoryName: '그릴·육류',
+        name: '프렌치 랙 양갈비 구이',
+        tag: '아리아 부동의 1위',
+        desc: '특유의 잡내가 전혀 없고 육즙이 가득한 아리아 최고 인기 메뉴. 민트 젤리 및 홀그레인 머스타드와 곁들이세요.'
+      },
+      {
+        id: 'm2',
+        category: 'seafood',
+        categoryName: '해산물·일식',
+        name: '랍스터 테일 구이 & 대게 찜',
+        tag: '주말 디너 필수',
+        desc: '오픈 직후 가장 빠르게 소진되는 고단가 해산물 라인업. 수율이 꽉 찬 대게 다리와 버터 향 가득한 랍스터 구이.'
+      },
+      {
+        id: 'm3',
+        category: 'grill',
+        categoryName: '그릴·육류',
+        name: '소고기 안심 스테이크 & LA갈비',
+        tag: '육즙 폭발',
+        desc: '미디엄 레어로 구워진 부드러운 안심과 달짝지근한 특제 양념의 LA갈비. 구운 아스파라거스·마늘을 꼭 곁들이세요.'
+      },
+      {
+        id: 'm4',
+        category: 'chinese',
+        categoryName: '중식·딤섬',
+        name: '특선 전가복 & 북경오리',
+        tag: '홍연 레시피',
+        desc: '큼직한 전복과 해삼, 관자가 아낌없이 들어간 전가복과 바삭한 껍질이 일품인 베이징덕은 단품 요리급 퀄리티입니다.'
+      },
+      {
+        id: 'm5',
+        category: 'chinese',
+        categoryName: '중식·딤섬',
+        name: '라이브 딤섬 (하가우 · 소룡포)',
+        tag: '갓 찐 딤섬',
+        desc: '피가 얇고 통새우가 탱글하게 씹히는 하가우와 진한 육즙이 터지는 소룡포를 1~2피스씩 따뜻할 때 바로 드세요.'
+      },
+      {
+        id: 'm6',
+        category: 'seafood',
+        categoryName: '해산물·일식',
+        name: '참치 뱃살 사시미 & 즉석 백짬뽕',
+        tag: '느끼함 리셋',
+        desc: '밥이 없는 고급 사시미로 깔끔하게 즐기고, 중간에 얼큰하고 시원한 즉석 해산물 백짬뽕 국물로 입안을 개운하게 정돈하세요.'
+      },
+      {
+        id: 'm7',
+        category: 'dessert',
+        categoryName: '디저트',
+        name: '조선델리 딸기 케이크 & 마카롱',
+        tag: '호텔 베이커리',
+        desc: '조선호텔 베이커리 명가 조선델리의 시그니처 케이크와 젤라또, 향긋한 TWG 티로 연말 모임의 대미를 장식하세요.'
+      }
+    ];
 
-            const irpSeed = parseFloat(irpSeedInput.value) || 0;
-            const pensionSeed = parseFloat(pensionSeedInput.value) || 0;
-            const totalSeed = irpSeed + pensionSeed;
+    const ROUTES_DATA = {
+      osan: {
+        name: '오산역 출발',
+        badge: '경기 남부 · 1호선 직통',
+        duration: '약 1시간 15분 ~ 25분',
+        recommendLeave: '1부 기준 15:40 출발 / 2부 기준 18:10 출발 권장',
+        summary: '환승 없이 1호선 한 번에 시청역까지 이동하는 것이 토요일 오후 정체를 피하는 가장 확실한 방법입니다.',
+        steps: [
+          {
+            title: '추천 1. 지하철 1호선 직통 (가장 정확함)',
+            detail: '오산역(1호선 광운대·청량리행 / 급행 탑승 시 10분 단축) → 시청역 하차 → 6번 출구(환구단 방향)로 나와 도보 5분 이동'
+          },
+          {
+            title: '추천 2. 광역급행버스 M5532 이용',
+            detail: '오산역/원동초 정류장 탑승 → 숭례문·서울역 정류장 하차 → 소공동 방면 도보 약 10분 (토요일 오후 경부고속도로 정체 시 지하철 권장)'
+          },
+          {
+            title: '자차 이용 시 주의사항',
+            detail: '경부고속도로 → 한남대교 → 남산1호터널 → 웨스틴 조선 서울 본관 주차장. 토요일 오후 상행선 및 명동 일대 정체가 심하므로 최소 1시간 45분 전 출발하세요.'
+          }
+        ]
+      },
+      guri: {
+        name: '구리(장자호수공원역) 출발',
+        badge: '경기 동부 · 8호선 환승',
+        duration: '약 45분 ~ 55분',
+        recommendLeave: '1부 기준 16:05 출발 / 2부 기준 18:35 출발 권장',
+        summary: '8호선 개통으로 잠실·천호 접근성이 매우 좋아졌습니다. 5호선·2호선 환승으로 을지로입구역까지 쾌적하게 이동하세요.',
+        steps: [
+          {
+            title: '추천 1. 8호선 → 5호선 → 2호선 루트 (최적)',
+            detail: '장자호수공원역(8호선 모란행) → 천호역에서 5호선(방화행) 환승 → 을지로4가역에서 2호선(시청행) 환승 → 을지로입구역 하차'
+          },
+          {
+            title: '추천 2. 8호선 → 2호선 잠실 환승 루트',
+            detail: '장자호수공원역(8호선) → 잠실역에서 2호선(성수·을지로 방면) 환승 → 을지로입구역 하차 (환승 횟수가 1회로 단순함)'
+          },
+          {
+            title: '을지로입구역 하차 후 도보 동선',
+            detail: '을지로입구역 7번 또는 8번 출구(롯데백화점 본점 방면)로 나와 소공로 방향으로 직진 도보 5분'
+          }
+        ]
+      },
+      pangyo: {
+        name: '판교역 출발',
+        badge: '성남 분당 · 신분당선/광역버스',
+        duration: '약 45분 ~ 55분',
+        recommendLeave: '1부 기준 16:05 출발 / 2부 기준 18:35 출발 권장',
+        summary: '신분당선+3호선 조합은 시간 오차가 거의 없으며, 앉아서 편하게 오시려면 명동/롯데백화점행 광역버스도 훌륭합니다.',
+        steps: [
+          {
+            title: '추천 1. 신분당선 → 3호선 환승 (정시성 최고)',
+            detail: '판교역(신분당선 신사행) → 신사역에서 3호선(대화행) 환승 → 을지로3가역 하차 후 2호선 환승(1정거장) 또는 도보 10분 이동'
+          },
+          {
+            title: '추천 2. 광역버스 직통 (환승 없음)',
+            detail: '판교역·낙생육교 정류장에서 9000번 / 9401번 등 서울 도심행 광역버스 탑승 → 롯데백화점·을지로입구 정류장 하차 후 도보 3분 (토요일 오후 정체 여부 체크 필수)'
+          },
+          {
+            title: '도착 후 동선',
+            detail: '호텔 정문 회전문을 지나 엘리베이터를 타고 LL층(저층 로비) 아리아 입구로 이동하세요.'
+          }
+        ]
+      },
+      sinseol: {
+        name: '신설동역 출발',
+        badge: '서울 동북 · 1호선 초근접',
+        duration: '약 15분 ~ 20분',
+        recommendLeave: '1부 기준 16:35 출발 / 2부 기준 19:05 출발 권장',
+        summary: '4명의 출발지 중 가장 가깝고 빠릅니다! 환승 없이 1호선으로 단 6정거장이면 시청역에 도착합니다.',
+        steps: [
+          {
+            title: '추천 1. 지하철 1호선 직통 (압도적 최단 시간)',
+            detail: '신설동역(1호선 인천·서동탄·신창 방면) 탑승 → 동묘앞·동대문·종로5가·종로3가·종각 → 시청역 하차 (약 11분 소요)'
+          },
+          {
+            title: '시청역 하차 후 도보 동선',
+            detail: '시청역 6번 출구로 나와 환구단(황궁우) 담장을 따라 소공로 방면으로 도보 5분 이동하면 웨스틴 조선 서울 입구가 나옵니다.'
+          },
+          {
+            title: '일행 선발대 미션 추천',
+            detail: '이동 시간이 가장 짧은 만큼 15~20분 일찍 도착해 LL층 아리아 입장 대기 줄을 먼저 확보해 두시면 완벽합니다!'
+          }
+        ]
+      }
+    };
 
-            const irpMonthly = parseFloat(irpMonthlyInput.value) || 0;
-            const pensionMonthly = parseFloat(pensionMonthlyInput.value) || 0;
-            const totalMonthlyAdd = irpMonthly + pensionMonthly;
+    const PREP_ITEMS = [
+      { id: 'prep-1', text: '12월 5일(토) 디너 예약 시간(1부/2부) 및 인원(4명) 최종 확인' },
+      { id: 'prep-2', text: '할인 적용 신용카드 또는 모바일 식사권/상품권 바코드 준비' },
+      { id: 'prep-3', text: '당일 점심은 12시경 가볍게 식사하여 공복감과 소화력 최적화' },
+      { id: 'prep-4', text: '입장 15분 전 웨스틴 조선 서울 LL층 아리아 앞 집결' }
+    ];
 
-            irpAnnualText.innerText = `${(irpMonthly * 12).toLocaleString()}만 원`;
+    // ==========================================
+    // 2. 상태 관리 (LocalStorage 연동)
+    // ==========================================
+    let state = {
+      activeTab: 'strategy',
+      checkedPlates: JSON.parse(localStorage.getItem('maat2026_plates') || '{}'),
+      pickedMenus: JSON.parse(localStorage.getItem('maat2026_picks') || '["m1","m2","m4"]'),
+      selectedOrigin: localStorage.getItem('maat2026_origin') || 'osan',
+      checkedPreps: JSON.parse(localStorage.getItem('maat2026_preps') || '{}'),
+      menuFilter: 'all'
+    };
 
-            const rBefore = (parseFloat(returnBeforeInput.value) || 5.0) / 100;
-            const rAfter = (parseFloat(returnAfterInput.value) || 3.0) / 100;
-            const avgSalary = parseFloat(avgSalaryInput.value) || 350; // 평균 월 세전 급여
-            const payoutYears = parseInt(payoutYearsSelect.value) || 20;
+    function saveState() {
+      localStorage.setItem('maat2026_plates', JSON.stringify(state.checkedPlates));
+      localStorage.setItem('maat2026_picks', JSON.stringify(state.pickedMenus));
+      localStorage.setItem('maat2026_origin', state.selectedOrigin);
+      localStorage.setItem('maat2026_preps', JSON.stringify(state.checkedPreps));
+    }
 
-            // 1. Accumulation Calculation
-            let accumulationLabels = [];
-            let totalCorpusData = [];
-            let principalData = [];
+    // ==========================================
+    // 3. D-Day 계산 (목표일: 2026-12-05)
+    // ==========================================
+    function updateDDay() {
+      const target = new Date('2026-12-05T00:00:00+09:00');
+      const now = new Date();
+      // 날짜 단위 비교를 위해 시분초 초기화
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const targetStart = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+      const diffDays = Math.round((targetStart - todayStart) / (1000 * 60 * 60 * 24));
 
-            let currentCorpus = totalSeed;
-            let currentPrincipal = totalSeed;
+      let label = '';
+      if (diffDays > 0) label = `D-${diffDays}`;
+      else if (diffDays === 0) label = 'D-DAY';
+      else label = `D+${Math.abs(diffDays)}`;
 
-            const rMonthlyBefore = rBefore / 12;
+      const badge = document.getElementById('dday-badge');
+      const title = document.getElementById('dday-title');
+      if (badge) badge.textContent = label;
+      if (title) title.textContent = diffDays === 0 ? 'TODAY · D-DAY' : label;
+    }
 
-            for (let i = 0; i <= yearsToRetire; i++) {
-                const age = currentAge + i;
-                accumulationLabels.push(`${age}세`);
-                totalCorpusData.push(Math.round(currentCorpus));
-                principalData.push(Math.round(currentPrincipal));
+    // ==========================================
+    // 4. 탭 전환 로직
+    // ==========================================
+    function switchTab(tabName) {
+      state.activeTab = tabName;
 
-                if (i < yearsToRetire) {
-                    for (let m = 0; m < 12; m++) {
-                        currentCorpus = (currentCorpus + totalMonthlyAdd) * (1 + rMonthlyBefore);
-                        currentPrincipal += totalMonthlyAdd;
-                    }
-                }
-            }
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.add('hidden');
+      });
+      const targetPanel = document.getElementById(`tab-${tabName}`);
+      if (targetPanel) targetPanel.classList.remove('hidden');
 
-            const finalCorpus = totalCorpusData[totalCorpusData.length - 1];
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        const isTarget = btn.dataset.tab === tabName;
+        btn.classList.toggle('text-aria-gold', isTarget);
+        btn.classList.toggle('bg-aria-gold/10', isTarget);
+        btn.classList.toggle('text-aria-muted', !isTarget);
+      });
 
-            // 2. National Pension Estimation
-            const totalWorkYears = Math.max(10, retireYear - startYear);
-            
-            let nationalPensionMonthly = 0;
-            if (totalWorkYears >= 10) {
-                const baseFor350 = 85; // 기준월액 350만원 20년 가입 기준 약 85만원
-                const salaryRatio = avgSalary / 350;
-                const yearFactor = 1 + (totalWorkYears - 20) * 0.05;
-                nationalPensionMonthly = Math.round(baseFor350 * salaryRatio * yearFactor);
-            }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-            // 3. Private Pension Monthly Payout Calculation
-            function calcMonthlyAnnuity(corpus, years, returnRate) {
-                if (years <= 0 || corpus <= 0) return 0;
-                const rM = returnRate / 12;
-                const nMonths = years * 12;
-                if (rM === 0) return Math.round(corpus / nMonths);
-                const monthly = corpus * (rM * Math.pow(1 + rM, nMonths)) / (Math.pow(1 + rM, nMonths) - 1);
-                return Math.round(monthly);
-            }
+    // ==========================================
+    // 5. 렌더링 함수들
+    // ==========================================
+    function renderPlatePlan() {
+      const container = document.getElementById('plate-plan-container');
+      if (!container) return;
 
-            const privatePensionMonthly = calcMonthlyAnnuity(finalCorpus, payoutYears, rAfter);
-            const grandTotalMonthly = privatePensionMonthly + nationalPensionMonthly;
+      container.innerHTML = PLATE_STEPS.map(plate => {
+        const itemsHtml = plate.items.map((itemText, idx) => {
+          const itemKey = `${plate.id}-${idx}`;
+          const isChecked = !!state.checkedPlates[itemKey];
+          return `
+            <label class="flex items-center gap-2.5 p-2 rounded-xl bg-black/25 border border-white/5 cursor-pointer active:bg-white/5 transition-colors">
+              <input
+                type="checkbox"
+                ${isChecked ? 'checked' : ''}
+                onchange="togglePlateCheck('${itemKey}')"
+                class="w-4 h-4 rounded accent-[#D4AF37] shrink-0"
+              />
+              <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-aria-muted' : 'text-aria-text'}">
+                ${itemText}
+              </span>
+            </label>
+          `;
+        }).join('');
 
-            // Update Metric Cards
-            cardTotalCorpus.innerText = formatKRW(finalCorpus);
-            cardCorpusDetail.innerText = `원금 ${formatKRW(currentPrincipal)} + 수익 ${formatKRW(finalCorpus - currentPrincipal)}`;
+        return `
+          <div class="festive-card rounded-2xl p-4">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-serif text-xs font-bold tracking-wider text-aria-gold">${plate.step}</span>
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-aria-burgundy/70 text-aria-gold-light border border-aria-gold/25">
+                ${plate.badge}
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-aria-text mt-1">${plate.title}</h4>
+            <p class="text-xs text-aria-muted mt-1 leading-relaxed">${plate.tip}</p>
+            <div class="mt-3 space-y-1.5">
+              ${itemsHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
-            cardTotalMonthly.innerText = `${grandTotalMonthly.toLocaleString()}만 원`;
-            cardMonthlyPeriod.innerText = `사적(${privatePensionMonthly}만) + 국민(${nationalPensionMonthly}만)`;
+    function togglePlateCheck(key) {
+      state.checkedPlates[key] = !state.checkedPlates[key];
+      saveState();
+      renderPlatePlan();
+    }
 
-            cardNationalPension.innerText = `${nationalPensionMonthly.toLocaleString()}만 원`;
-            cardWorkYears.innerText = `총 근속기간 ${totalWorkYears}년 반영`;
+    function resetPlateChecks() {
+      state.checkedPlates = {};
+      saveState();
+      renderPlatePlan();
+      showToast('접시 체크리스트가 초기화되었습니다.');
+    }
 
-            // 4. Payout Phase Data
-            let payoutLabels = [];
-            let payoutBalanceData = [];
+    function renderMenus() {
+      const container = document.getElementById('menu-cards-container');
+      const countBadge = document.getElementById('header-pick-count');
+      if (countBadge) countBadge.textContent = state.pickedMenus.length;
+      if (!container) return;
 
-            let remCorpus = finalCorpus;
-            const rMonthlyAfter = rAfter / 12;
+      const filtered = state.menuFilter === 'all'
+        ? SIGNATURE_MENUS
+        : SIGNATURE_MENUS.filter(m => m.category === state.menuFilter);
 
-            for (let i = 0; i <= payoutYears; i++) {
-                const age = retireAge + i;
-                payoutLabels.push(`${age}세`);
-                payoutBalanceData.push(Math.max(0, Math.round(remCorpus)));
+      container.innerHTML = filtered.map(menu => {
+        const isPicked = state.pickedMenus.includes(menu.id);
+        return `
+          <div class="festive-card rounded-2xl p-4 transition-all ${isPicked ? 'border-aria-gold/60' : ''}">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-[11px] font-semibold text-aria-gold">${menu.categoryName}</span>
+                  <span class="text-aria-muted text-[10px]">•</span>
+                  <span class="px-2 py-0.5 rounded-md bg-aria-emerald/80 text-aria-gold-light text-[11px] font-medium border border-aria-gold/20">
+                    ${menu.tag}
+                  </span>
+                </div>
+                <h3 class="text-base font-bold text-aria-text mt-1.5">${menu.name}</h3>
+              </div>
+              <button
+                type="button"
+                onclick="toggleMenuPick('${menu.id}')"
+                class="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center border transition-all active:scale-90 ${
+                  isPicked
+                    ? 'bg-aria-gold text-aria-bg border-aria-gold font-bold'
+                    : 'bg-white/5 text-aria-muted border-white/15'
+                }"
+                aria-label="${menu.name} 찜하기"
+              >
+                ${isPicked ? '★' : '☆'}
+              </button>
+            </div>
+            <p class="text-xs text-aria-text/85 mt-2 leading-relaxed">
+              ${menu.desc}
+            </p>
+          </div>
+        `;
+      }).join('');
+    }
 
-                if (i < payoutYears) {
-                    for (let m = 0; m < 12; m++) {
-                        remCorpus = (remCorpus - privatePensionMonthly) * (1 + rMonthlyAfter);
-                    }
-                }
-            }
+    function filterMenu(category) {
+      state.menuFilter = category;
+      document.querySelectorAll('.menu-filter-btn').forEach(btn => {
+        const active = btn.dataset.filter === category;
+        btn.classList.toggle('bg-aria-gold', active);
+        btn.classList.toggle('text-aria-bg', active);
+        btn.classList.toggle('bg-white/10', !active);
+        btn.classList.toggle('text-aria-text', !active);
+      });
+      renderMenus();
+    }
 
-            renderChart({
-                accumulationLabels,
-                totalCorpusData,
-                principalData,
-                payoutLabels,
-                payoutBalanceData,
-                retireAge
-            });
+    function toggleMenuPick(menuId) {
+      if (state.pickedMenus.includes(menuId)) {
+        state.pickedMenus = state.pickedMenus.filter(id => id !== menuId);
+        showToast('찜 리스트에서 제외되었습니다.');
+      } else {
+        state.pickedMenus.push(menuId);
+        showToast('나만의 공략 리스트에 담았습니다! ★');
+      }
+      saveState();
+      renderMenus();
+    }
 
-            renderComparisonTable(finalCorpus, nationalPensionMonthly, rAfter);
-        }
+    function selectOrigin(originKey) {
+      state.selectedOrigin = originKey;
+      saveState();
+      renderRoute();
+    }
 
-        // Render Table comparing payout durations
-        function renderComparisonTable(corpus, nationalMonthly, rAfter) {
-            const durations = [10, 15, 20, 25, 30];
-            comparisonTable.innerHTML = '';
+    function renderRoute() {
+      // 출발지 버튼 스타일 업데이트
+      document.querySelectorAll('.origin-btn').forEach(btn => {
+        const isSelected = btn.dataset.origin === state.selectedOrigin;
+        btn.classList.toggle('bg-aria-gold/20', isSelected);
+        btn.classList.toggle('border-aria-gold', isSelected);
+        btn.classList.toggle('text-aria-gold-light', isSelected);
+        btn.classList.toggle('bg-aria-card/70', !isSelected);
+        btn.classList.toggle('border-white/10', !isSelected);
+        btn.classList.toggle('text-aria-text', !isSelected);
+      });
 
-            function calcAnnuity(c, y, r) {
-                const rM = r / 12;
-                const n = y * 12;
-                if (rM === 0) return Math.round(c / n);
-                return Math.round(c * (rM * Math.pow(1 + rM, n)) / (Math.pow(1 + rM, n) - 1));
-            }
+      const data = ROUTES_DATA[state.selectedOrigin];
+      const container = document.getElementById('route-detail-container');
+      if (!data || !container) return;
 
-            durations.forEach(d => {
-                const privMonthly = calcAnnuity(corpus, d, rAfter);
-                const totalM = privMonthly + nationalMonthly;
-                const isSelected = parseInt(payoutYearsSelect.value) === d;
+      const stepsHtml = data.steps.map((st, index) => `
+        <div class="p-3 rounded-xl bg-black/30 border border-white/10">
+          <div class="flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-aria-gold/20 text-aria-gold text-xs font-bold flex items-center justify-center shrink-0">
+              ${index + 1}
+            </span>
+            <h4 class="text-xs sm:text-sm font-bold text-aria-gold-light">${st.title}</h4>
+          </div>
+          <p class="text-xs text-aria-text/90 mt-1.5 leading-relaxed pl-7">
+            ${st.detail}
+          </p>
+        </div>
+      `).join('');
 
-                const tr = document.createElement('tr');
-                tr.className = isSelected ? "bg-blue-50/80 font-bold text-blue-900" : "hover:bg-slate-50";
-                
-                tr.innerHTML = `
-                    <td class="p-2.5 sm:p-3 font-semibold">${d}년 수령 ${isSelected ? '<span class="text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded ml-1">선택됨</span>' : ''}</td>
-                    <td class="p-2.5 sm:p-3">${privMonthly.toLocaleString()}만 원</td>
-                    <td class="p-2.5 sm:p-3">${nationalMonthly.toLocaleString()}만 원</td>
-                    <td class="p-2.5 sm:p-3 text-blue-600 font-bold">${totalM.toLocaleString()}만 원</td>
-                    <td class="p-2.5 sm:p-3 text-slate-400 font-normal">${d <= 15 ? '단기 집중 인출' : '장기 안정 인출'}</td>
-                `;
-                comparisonTable.appendChild(tr);
-            });
-        }
+      container.innerHTML = `
+        <div>
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded-full bg-aria-burgundy/80 text-aria-gold-light text-[11px] font-semibold">
+              ${data.badge}
+            </span>
+            <span class="text-xs font-bold text-aria-gold">소요시간: ${data.duration}</span>
+          </div>
+          <h3 class="text-lg font-bold text-aria-text mt-2">${data.name} → 웨스틴 조선 서울</h3>
+          <div class="mt-2 px-3 py-2 rounded-xl bg-aria-emerald/60 border border-aria-gold/30 text-xs font-semibold text-aria-gold-light">
+            ⏰ ${data.recommendLeave}
+          </div>
+          <p class="text-xs text-aria-muted mt-2 leading-relaxed">
+            ${data.summary}
+          </p>
+        </div>
+        <div class="space-y-2.5 pt-2 border-t border-white/10">
+          ${stepsHtml}
+        </div>
+      `;
+    }
 
-        function renderChart(data) {
-            const ctx = document.getElementById('pensionChart').getContext('2d');
+    function renderPrepChecklist() {
+      const container = document.getElementById('prep-checklist');
+      if (!container) return;
 
-            if (chartInstance) {
-                chartInstance.destroy();
-            }
+      container.innerHTML = PREP_ITEMS.map(item => {
+        const checked = !!state.checkedPreps[item.id];
+        return `
+          <label class="flex items-start gap-2.5 p-2.5 rounded-xl bg-black/30 border border-white/5 cursor-pointer">
+            <input
+              type="checkbox"
+              ${checked ? 'checked' : ''}
+              onchange="togglePrep('${item.id}')"
+              class="w-4 h-4 mt-0.5 rounded accent-[#D4AF37] shrink-0"
+            />
+            <span class="text-xs leading-relaxed ${checked ? 'line-through text-aria-muted' : 'text-aria-text'}">
+              ${item.text}
+            </span>
+          </label>
+        `;
+      }).join('');
+    }
 
-            if (activeTab === 'accumulation') {
-                chartInstance = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.accumulationLabels,
-                        datasets: [
-                            {
-                                label: '총 예상 자산 (원금+수익)',
-                                data: data.totalCorpusData,
-                                borderColor: '#2563eb',
-                                backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                                fill: true,
-                                tension: 0.3,
-                                borderWidth: 2.5
-                            },
-                            {
-                                label: '누적 순 납입 원금',
-                                data: data.principalData,
-                                borderColor: '#94a3b8',
-                                borderDash: [4, 4],
-                                fill: false,
-                                tension: 0.1,
-                                borderWidth: 1.5
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'top', labels: { font: { family: 'Pretendard', size: 11 } } },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `${context.dataset.label}: ${context.raw.toLocaleString()}만 원`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                ticks: {
-                                    font: { size: 10 },
-                                    callback: function(value) { return (value/10000).toFixed(1) + '억'; }
-                                }
-                            },
-                            x: {
-                                ticks: { font: { size: 10 } }
-                            }
-                        }
-                    }
-                });
-            } else {
-                chartInstance = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: data.payoutLabels,
-                        datasets: [
-                            {
-                                label: '은퇴 후 잔여 자산 추이',
-                                data: data.payoutBalanceData,
-                                backgroundColor: '#10b981',
-                                borderRadius: 4
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'top', labels: { font: { family: 'Pretendard', size: 11 } } },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `잔여 자산: ${context.raw.toLocaleString()}만 원`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                ticks: {
-                                    font: { size: 10 },
-                                    callback: function(value) { return (value/10000).toFixed(1) + '억'; }
-                                }
-                            },
-                            x: {
-                                ticks: { font: { size: 10 } }
-                            }
-                        }
-                    }
-                });
-            }
-        }
+    function togglePrep(id) {
+      state.checkedPreps[id] = !state.checkedPreps[id];
+      saveState();
+      renderPrepChecklist();
+    }
 
-        const inputs = [
-            currentAgeInput, startYearInput, retireAgeInput,
-            irpSeedInput, pensionSeedInput, irpMonthlyInput, pensionMonthlyInput,
-            returnBeforeInput, returnAfterInput, avgSalaryInput, payoutYearsSelect
-        ];
+    // ==========================================
+    // 6. 유틸리티 (주소 복사 & 토스트 알림)
+    // ==========================================
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      if (!box) return;
+      box.firstElementChild.textContent = msg;
+      box.classList.remove('opacity-0');
+      box.classList.add('opacity-100');
 
-        inputs.forEach(input => {
-            input.addEventListener('input', calculateRetirement);
-            input.addEventListener('change', calculateRetirement);
-        });
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.remove('opacity-100');
+        box.classList.add('opacity-0');
+      }, 2200);
+    }
 
-        btnTabAccumulation.addEventListener('click', () => {
-            activeTab = 'accumulation';
-            btnTabAccumulation.className = 'flex-1 sm:flex-none px-3 py-1.5 rounded-lg bg-white text-blue-600 shadow-sm transition text-center';
-            btnTabPayout.className = 'flex-1 sm:flex-none px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-slate-600 text-center';
-            calculateRetirement();
-        });
+    function copyAddress() {
+      const address = '서울 중구 소공로 106 웨스틴 조선 서울';
+      const tempInput = document.createElement('textarea');
+      tempInput.value = address;
+      tempInput.style.position = 'fixed';
+      tempInput.style.opacity = '0';
+      document.body.appendChild(tempInput);
+      tempInput.focus();
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showToast('주소가 복사되었습니다: 서울 중구 소공로 106');
+      } catch (err) {
+        showToast('서울 중구 소공로 106 (수동 복사 필요)');
+      }
+      document.body.removeChild(tempInput);
+    }
 
-        btnTabPayout.addEventListener('click', () => {
-            activeTab = 'payout';
-            btnTabPayout.className = 'flex-1 sm:flex-none px-3 py-1.5 rounded-lg bg-white text-emerald-600 shadow-sm transition text-center';
-            btnTabAccumulation.className = 'flex-1 sm:flex-none px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-slate-600 text-center';
-            calculateRetirement();
-        });
-
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            currentAgeInput.value = 38;
-            startYearInput.value = 2014;
-            retireAgeInput.value = 60;
-            irpSeedInput.value = 3500;
-            pensionSeedInput.value = 6000;
-            irpMonthlyInput.value = 50;
-            pensionMonthlyInput.value = 40;
-            returnBeforeInput.value = 5.0;
-            returnAfterInput.value = 3.0;
-            avgSalaryInput.value = 350;
-            payoutYearsSelect.value = 20;
-            calculateRetirement();
-        });
-
-        window.onload = function() {
-            calculateRetirement();
-        };
-    </script>
+    // ==========================================
+    // 7. 초기 실행
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      updateDDay();
+      renderPlatePlan();
+      renderMenus();
+      renderRoute();
+      renderPrepChecklist();
+      switchTab('strategy');
+    });
+  </script>
 </body>
 </html>
