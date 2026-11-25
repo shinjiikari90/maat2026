@@ -1,54 +1,60 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="theme-color" content="#FAF8F5" />
-  <title>MAAT 2026 | 웨스틴 조선 아리아 연말 미식 가이드</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta id="meta-theme-color" name="theme-color" content="#FAF8F5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>MAAT 2026 · 웨스틴 조선 서울 아리아</title>
 
-  <!-- Pretendard (한글 가독성 최적화) & Playfair Display (영문 타이틀) -->
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CSS -->
+  <!-- Pretendard 폰트 (가독성 및 한글 조판 최적화) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            'aria-bg': '#FAF8F5',
-            'aria-card': '#FFFFFF',
-            'aria-sub': '#F3EFEA',
-            'aria-border': '#E6DFD5',
-            'aria-burgundy': '#881337',
-            'aria-burgundy-soft': '#FFF1F2',
-            'aria-green': '#14532D',
-            'aria-green-soft': '#F0FDF4',
-            'aria-amber': '#92400E',
-            'aria-amber-soft': '#FEF3C7',
-            'aria-text': '#18181B',
-            'aria-body': '#3F3F46',
-            'aria-muted': '#52525B',
-          },
           fontFamily: {
-            sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
-            serif: ['"Playfair Display"', 'Georgia', 'serif'],
-          },
-        },
-      },
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'Apple SD Gothic Neo', 'Noto Sans KR', 'sans-serif'],
+          }
+        }
+      }
     };
   </script>
 
   <style>
-    /* 사파리 및 모바일 뷰포트/줄넘김/폰트 렌더링 완벽 최적화 */
     :root {
-      --sat: env(safe-area-inset-top, 0px);
-      --sab: env(safe-area-inset-bottom, 0px);
+      --bg-page: #FAF8F5;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F3EFEA;
+      --border-color: #E6DFD5;
+      --text-primary: #18181B;
+      --text-secondary: #3F3F46;
+      --text-muted: #71717A;
+      --accent-burgundy: #881337;
+      --accent-burgundy-soft: #FFF1F2;
+      --accent-forest: #14532D;
+      --accent-forest-soft: #F0FDF4;
+      --accent-amber: #92400E;
+      --accent-amber-soft: #FEF3C7;
+    }
+
+    html.dark {
+      --bg-page: #141211;
+      --bg-card: #1F1C1A;
+      --bg-subtle: #292522;
+      --border-color: #36302C;
+      --text-primary: #F5F2EE;
+      --text-secondary: #D6D0C8;
+      --text-muted: #9E958C;
+      --accent-burgundy: #FDA4AF;
+      --accent-burgundy-soft: rgba(136, 19, 55, 0.28);
+      --accent-forest: #86EFAC;
+      --accent-forest-soft: rgba(20, 83, 45, 0.28);
+      --accent-amber: #FCD34D;
+      --accent-amber-soft: rgba(146, 64, 14, 0.28);
     }
 
     * {
@@ -58,46 +64,20 @@
       overflow-wrap: break-word;
     }
 
-    html {
-      -webkit-text-size-adjust: 100%;
-      background-color: #FAF8F5;
-      color: #18181B;
-      scroll-behavior: smooth;
-    }
-
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      min-height: 100dvh;
-      overflow-x: hidden;
-      background-color: #FAF8F5;
-      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
       font-size: 15px;
       line-height: 1.6;
-      color: #18181B;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    /* 사파리 입력창 줌 방지 (최소 16px) */
-    input, select, textarea {
-      font-size: 16px !important;
-    }
-
-    /* 고대비 라이트 카드 스타일 */
-    .clean-card {
-      background-color: #FFFFFF;
-      border: 1px solid #E6DFD5;
-      box-shadow: 0 2px 10px rgba(28, 25, 23, 0.04);
-    }
-
-    .holiday-banner {
-      background: linear-gradient(135deg, #FFFDF9 0%, #F7F1E8 100%);
-      border: 1px solid #DFD3C3;
-      box-shadow: 0 4px 14px rgba(136, 19, 55, 0.05);
-    }
-
-    /* 가로 스크롤바 숨김 (필터 칩용) */
+    /* 가로 스크롤 숨김 */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -106,607 +86,411 @@
       scrollbar-width: none;
     }
 
-    /* 하단 네비게이션 Safe Area 대응 */
-    .bottom-nav-safe {
-      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    /* 안전 영역 대응 */
+    .safe-top {
+      padding-top: max(14px, env(safe-area-inset-top));
     }
-    .main-bottom-space {
-      padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    .safe-bottom {
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
     }
-    .header-top-safe {
-      padding-top: calc(14px + env(safe-area-inset-top, 0px));
+
+    /* 카드 및 표면 공통 스타일 */
+    .surface-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .surface-subtle {
+      background-color: var(--bg-subtle);
+      border-radius: 14px;
+    }
+
+    .text-primary-theme { color: var(--text-primary); }
+    .text-secondary-theme { color: var(--text-secondary); }
+    .text-muted-theme { color: var(--text-muted); }
+
+    .badge-burgundy {
+      background-color: var(--accent-burgundy-soft);
+      color: var(--accent-burgundy);
+    }
+    .badge-forest {
+      background-color: var(--accent-forest-soft);
+      color: var(--accent-forest);
+    }
+    .badge-amber {
+      background-color: var(--accent-amber-soft);
+      color: var(--accent-amber);
     }
   </style>
 </head>
-<body class="selection:bg-aria-burgundy selection:text-white">
+<body>
+  <div class="min-h-screen flex flex-col max-w-lg mx-auto">
 
-  <!-- 메인 컨테이너 (모바일 최적화 폭 제한 및 중앙 정렬) -->
-  <div class="relative max-w-lg mx-auto min-h-dvh flex flex-col">
-
-    <!-- 상단 헤더 영역 (아이보리 반투명 블러 + 고대비 딥 버건디 타이포) -->
-    <header class="header-top-safe px-5 pb-3.5 border-b border-aria-border bg-aria-bg/92 backdrop-blur-md sticky top-0 z-30">
-      <div class="flex items-center justify-between gap-3">
+    <!-- 상단 헤더 -->
+    <header class="sticky top-0 z-30 safe-top px-4 pb-3 backdrop-blur-md border-b" style="background-color: color-mix(in srgb, var(--bg-page) 90%, transparent); border-color: var(--border-color);">
+      <div class="flex items-center justify-between gap-2">
         <div>
-          <div class="flex items-center gap-1.5 flex-wrap">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-aria-burgundy text-white">
-              YEAR-END 2026
-            </span>
-            <span id="dday-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-aria-amber-soft text-aria-amber border border-amber-300">
-              D-10
-            </span>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-extrabold tracking-wider px-2 py-0.5 rounded-full badge-burgundy">YEAR-END 2026</span>
+            <span id="dday-badge" class="text-xs font-bold px-2 py-0.5 rounded-full badge-amber">D-Day 계산중</span>
           </div>
-          <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-aria-burgundy mt-1 leading-tight">
-            MAAT 2026
-          </h1>
-          <p class="text-[13px] text-aria-muted mt-0.5 font-medium leading-snug">
-            웨스틴 조선 서울 <strong class="text-aria-text font-bold">아리아(ARIA)</strong> · 12월 5일(토) 디너
-          </p>
+          <h1 class="text-xl font-extrabold tracking-tight mt-1 text-primary-theme">MAAT 2026</h1>
+          <p class="text-xs font-medium text-muted-theme">12월 5일(토) 디너 · 웨스틴 조선 서울 아리아</p>
         </div>
 
-        <!-- 찜한 메뉴 카운터 뱃지 버튼 -->
-        <button
-          type="button"
-          onclick="switchTab('menu')"
-          class="shrink-0 flex flex-col items-center justify-center px-3.5 py-2 rounded-2xl clean-card active:scale-95 transition-transform"
-          aria-label="찜한 시그니처 메뉴 보기"
-        >
-          <span class="text-[11px] text-aria-muted font-bold">MY PICK</span>
-          <div class="flex items-center gap-1 mt-0.5">
-            <span class="text-aria-amber text-base leading-none">★</span>
-            <span id="header-pick-count" class="text-[15px] font-extrabold text-aria-text leading-none">0</span>
-          </div>
+        <!-- 주간/야간 모드 전환 버튼 -->
+        <button onclick="toggleThemeMode()" type="button" aria-label="화면 테마 변경" class="flex items-center gap-1.5 px-3 py-2 rounded-full border text-xs font-bold shadow-sm active:scale-95 transition" style="background-color: var(--bg-card); border-color: var(--border-color); color: var(--text-primary);">
+          <span id="theme-icon">☀️</span>
+          <span id="theme-label">자동</span>
         </button>
       </div>
     </header>
 
-    <!-- 메인 콘텐츠 영역 -->
-    <main class="flex-1 px-4 pt-4 main-bottom-space">
+    <!-- 메인 콘텐츠 컨테이너 -->
+    <main class="flex-1 px-4 pt-4 pb-28 space-y-4">
 
       <!-- ========================================== -->
-      <!-- TAB 1: 전략 & 동선 (Buffet Strategy)         -->
+      <!-- TAB 1: 공략전략 -->
       <!-- ========================================== -->
-      <section id="tab-strategy" class="tab-panel space-y-4">
-        
-        <!-- 핵심 브리핑 카드 -->
-        <div class="holiday-banner rounded-2xl p-4 sm:p-5">
-          <div class="flex items-start justify-between gap-3">
+      <section id="tab-strategy" class="space-y-4">
+        <!-- 주말 디너 핵심 브리핑 -->
+        <div class="surface-card p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full badge-burgundy">주말 디너 필수 규칙</span>
+            <span class="text-xs font-semibold text-muted-theme">LL층 (저층 로비)</span>
+          </div>
+          <h2 class="text-base font-extrabold text-primary-theme mb-1.5">입장 15분 전 도착 & 첫 접시 선점</h2>
+          <p class="text-sm text-secondary-theme leading-relaxed">
+            토요일 디너는 오픈 직후 <strong class="font-bold text-primary-theme">양갈비·대게·랍스터</strong> 줄이 가장 먼저 길어집니다. 1층 로비에서 LL층으로 미리 내려가 대기하시고, 자리에 앉자마자 샐러드 대신 그릴·해산물 코너부터 공략하세요.
+          </p>
+        </div>
+
+        <!-- 황금 접시 플랜 -->
+        <div class="surface-card p-4">
+          <div class="flex items-center justify-between mb-3">
             <div>
-              <span class="inline-block px-2 py-0.5 rounded-md bg-aria-green-soft text-aria-green border border-emerald-200 text-xs font-bold">
-                2026. 12. 05 (토) 주말 디너 공략
-              </span>
-              <h2 class="text-lg font-extrabold text-aria-text mt-1.5 leading-snug">
-                주말 디너 뽕뽑기 황금 동선
-              </h2>
+              <h2 class="text-base font-extrabold text-primary-theme">황금 접시 5단계 로드맵</h2>
+              <p class="text-xs text-muted-theme mt-0.5">완료한 코스는 터치해서 체크하세요</p>
             </div>
-            <span class="text-2xl shrink-0" role="img" aria-label="샴페인">🥂</span>
+            <span id="plate-progress" class="text-xs font-extrabold px-2.5 py-1 rounded-full badge-forest">0 / 5 완료</span>
           </div>
-          <p class="text-[15px] text-aria-body mt-2 leading-relaxed">
-            아리아는 <strong class="text-aria-burgundy font-bold underline decoration-aria-burgundy/30 underline-offset-4">양갈비·랍스터·대게·중식</strong> 단가가 압도적입니다. 샐러드와 초밥(밥)으로 배를 채우지 말고, 입장 직후 메인 그릴과 해산물부터 선점하세요.
-          </p>
-
-          <!-- 입장 전 3대 원칙 -->
-          <div class="grid grid-cols-3 gap-2 mt-4 pt-3.5 border-t border-aria-border text-center">
-            <div class="bg-white rounded-xl p-2.5 border border-aria-border">
-              <div class="text-[13px] font-extrabold text-aria-burgundy">15분 전 도착</div>
-              <div class="text-xs text-aria-muted mt-0.5 leading-tight font-medium">LL층 대기 줄 선점</div>
-            </div>
-            <div class="bg-white rounded-xl p-2.5 border border-aria-border">
-              <div class="text-[13px] font-extrabold text-aria-green">소량 다접시</div>
-              <div class="text-xs text-aria-muted mt-0.5 leading-tight font-medium">한 접시 3~4종만</div>
-            </div>
-            <div class="bg-white rounded-xl p-2.5 border border-aria-border">
-              <div class="text-[13px] font-extrabold text-aria-amber">리필 타이밍</div>
-              <div class="text-xs text-aria-muted mt-0.5 leading-tight font-medium">갓 구운 트레이 공략</div>
-            </div>
-          </div>
+          <div id="plate-list" class="space-y-2.5"></div>
         </div>
 
-        <!-- 인터랙티브 황금 접시 플랜 (체크리스트 포함) -->
-        <div class="space-y-3">
-          <div class="flex items-center justify-between px-1">
-            <h3 class="text-[15px] font-extrabold text-aria-text flex items-center gap-1.5">
-              <span>🍽️</span> 실전 접시 공략 순서 (체크 가능)
-            </h3>
-            <button type="button" onclick="resetPlateChecks()" class="text-xs font-semibold text-aria-muted underline hover:text-aria-burgundy">
-              체크 초기화
-            </button>
-          </div>
-
-          <div id="plate-plan-container" class="space-y-3">
-            <!-- JS에서 동적 렌더링 -->
-          </div>
-        </div>
-
-        <!-- 피해야 할 포만감 함정 경고 카드 -->
-        <div class="rounded-2xl p-4 sm:p-5 bg-aria-burgundy-soft border border-rose-200">
-          <div class="flex items-center gap-2 text-aria-burgundy font-extrabold text-[15px]">
-            <span>⚠️</span>
-            <h3>피해야 할 '포만감 함정' 5가지</h3>
-          </div>
-          <p class="text-[14px] text-aria-body mt-1.5 leading-relaxed">
-            아래 메뉴는 위장 용량을 순식간에 차지해 고단가 메뉴 섭취를 방해합니다.
-          </p>
-          <div class="flex flex-wrap gap-2 mt-3">
-            <span class="px-3 py-1.5 rounded-lg bg-white text-[13px] font-semibold text-aria-text border border-rose-200">🍕 피자 & 파스타</span>
-            <span class="px-3 py-1.5 rounded-lg bg-white text-[13px] font-semibold text-aria-text border border-rose-200">🍣 밥 많은 초밥·롤</span>
-            <span class="px-3 py-1.5 rounded-lg bg-white text-[13px] font-semibold text-aria-text border border-rose-200">🍚 볶음밥 & 난(Naan)</span>
-            <span class="px-3 py-1.5 rounded-lg bg-white text-[13px] font-semibold text-aria-text border border-rose-200">🥖 식전빵 & 감자튀김</span>
-            <span class="px-3 py-1.5 rounded-lg bg-white text-[13px] font-semibold text-aria-text border border-rose-200">🥤 탄산음료(제로 포함)</span>
+        <!-- 포만감 함정 주의보 -->
+        <div class="surface-card p-4">
+          <h3 class="text-sm font-extrabold text-primary-theme mb-2">⚠️ 피해야 할 '포만감 함정'</h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="surface-subtle p-3">
+              <div class="font-bold text-primary-theme mb-0.5">초밥 밥 & 롤류</div>
+              <div class="text-secondary-theme">밥 양이 많아 금방 배부릅니다. 사시미(회) 위주로 드세요.</div>
+            </div>
+            <div class="surface-subtle p-3">
+              <div class="font-bold text-primary-theme mb-0.5">탄산음료 & 빵</div>
+              <div class="text-secondary-theme">제로 탄산도 위를 팽창시킵니다. 물이나 따뜻한 차를 곁들이세요.</div>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- ========================================== -->
-      <!-- TAB 2: 시그니처 톱 메뉴 (Aria Must-Eat)     -->
+      <!-- TAB 2: 시그니처 메뉴 -->
       <!-- ========================================== -->
-      <section id="tab-menu" class="tab-panel hidden space-y-4">
-        <div class="clean-card rounded-2xl p-4 sm:p-5">
-          <div class="flex items-start justify-between gap-2">
-            <div>
-              <h2 class="text-lg font-extrabold text-aria-text">아리아 시그니처 톱 메뉴</h2>
-              <p class="text-[14px] text-aria-muted mt-0.5">별표(★)를 눌러 나만의 공략 리스트를 만드세요.</p>
-            </div>
-            <span class="shrink-0 px-2.5 py-1 rounded-lg bg-aria-amber-soft border border-amber-300 text-xs font-bold text-aria-amber">
-              주말 디너 기준
-            </span>
+      <section id="tab-menus" class="hidden space-y-4">
+        <div class="surface-card p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-base font-extrabold text-primary-theme">아리아 시그니처 메뉴</h2>
+            <span id="picked-count" class="text-xs font-extrabold px-2.5 py-1 rounded-full badge-amber">찜 3개</span>
           </div>
+          <p class="text-xs text-secondary-theme mb-3">꼭 먹어야 할 메뉴에 별표(★)를 눌러 나만의 공략 리스트를 만드세요.</p>
 
-          <!-- 카테고리 필터 버튼 -->
-          <div class="flex gap-2 overflow-x-auto no-scrollbar mt-4 pb-0.5" id="menu-filter-bar">
-            <button type="button" data-filter="all" onclick="filterMenu('all')" class="menu-filter-btn active shrink-0 px-3.5 py-2 rounded-full text-[13px] font-bold bg-aria-burgundy text-white transition-colors">
-              전체
-            </button>
-            <button type="button" data-filter="grill" onclick="filterMenu('grill')" class="menu-filter-btn shrink-0 px-3.5 py-2 rounded-full text-[13px] font-bold bg-aria-sub text-aria-body border border-aria-border transition-colors">
-              그릴·육류
-            </button>
-            <button type="button" data-filter="seafood" onclick="filterMenu('seafood')" class="menu-filter-btn shrink-0 px-3.5 py-2 rounded-full text-[13px] font-bold bg-aria-sub text-aria-body border border-aria-border transition-colors">
-              해산물·일식
-            </button>
-            <button type="button" data-filter="chinese" onclick="filterMenu('chinese')" class="menu-filter-btn shrink-0 px-3.5 py-2 rounded-full text-[13px] font-bold bg-aria-sub text-aria-body border border-aria-border transition-colors">
-              중식·딤섬
-            </button>
-            <button type="button" data-filter="dessert" onclick="filterMenu('dessert')" class="menu-filter-btn shrink-0 px-3.5 py-2 rounded-full text-[13px] font-bold bg-aria-sub text-aria-body border border-aria-border transition-colors">
-              디저트
-            </button>
+          <!-- 카테고리 필터 -->
+          <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="menu-filters">
+            <button type="button" onclick="setMenuFilter('all')" data-filter="all" class="menu-filter-btn px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">전체</button>
+            <button type="button" onclick="setMenuFilter('grill')" data-filter="grill" class="menu-filter-btn px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">그릴·육류</button>
+            <button type="button" onclick="setMenuFilter('seafood')" data-filter="seafood" class="menu-filter-btn px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">해산물·일식</button>
+            <button type="button" onclick="setMenuFilter('chinese')" data-filter="chinese" class="menu-filter-btn px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">중식·딤섬</button>
+            <button type="button" onclick="setMenuFilter('dessert')" data-filter="dessert" class="menu-filter-btn px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">디저트·기타</button>
           </div>
         </div>
 
-        <!-- 메뉴 카드 리스트 -->
-        <div id="menu-cards-container" class="space-y-3">
-          <!-- JS에서 동적 렌더링 -->
-        </div>
+        <div id="menu-list" class="space-y-2.5"></div>
       </section>
 
       <!-- ========================================== -->
-      <!-- TAB 3: 출발지별 이동 가이드 (4 Routes)      -->
+      <!-- TAB 3: 출발동선 -->
       <!-- ========================================== -->
-      <section id="tab-route" class="tab-panel hidden space-y-4">
-        
-        <!-- 목적지 요약 헤더 -->
-        <div class="holiday-banner rounded-2xl p-4 sm:p-5">
+      <section id="tab-routes" class="hidden space-y-4">
+        <div class="surface-card p-4">
+          <h2 class="text-base font-extrabold text-primary-theme mb-1">멤버별 맞춤 이동 동선</h2>
+          <p class="text-xs text-secondary-theme mb-3">출발지를 선택하면 웨스틴 조선 서울까지의 최적 경로와 권장 출발 시각을 안내합니다.</p>
+
+          <!-- 출발지 선택 탭 -->
+          <div class="grid grid-cols-2 gap-2" id="origin-buttons">
+            <button type="button" onclick="selectOrigin('osan')" data-origin="osan" class="origin-btn p-2.5 rounded-xl border text-left transition">
+              <div class="text-xs font-bold opacity-75">경기 남부</div>
+              <div class="text-sm font-extrabold">오산역 출발</div>
+            </button>
+            <button type="button" onclick="selectOrigin('guri')" data-origin="guri" class="origin-btn p-2.5 rounded-xl border text-left transition">
+              <div class="text-xs font-bold opacity-75">경기 동부</div>
+              <div class="text-sm font-extrabold">장자호수공원역</div>
+            </button>
+            <button type="button" onclick="selectOrigin('pangyo')" data-origin="pangyo" class="origin-btn p-2.5 rounded-xl border text-left transition">
+              <div class="text-xs font-bold opacity-75">분당·판교</div>
+              <div class="text-sm font-extrabold">판교역 출발</div>
+            </button>
+            <button type="button" onclick="selectOrigin('sinseol')" data-origin="sinseol" class="origin-btn p-2.5 rounded-xl border text-left transition">
+              <div class="text-xs font-bold opacity-75">서울 동북</div>
+              <div class="text-sm font-extrabold">신설동역 출발</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 선택된 출발지 상세 카드 -->
+        <div id="route-detail" class="space-y-3"></div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 4: 할인·체크 -->
+      <!-- ========================================== -->
+      <section id="tab-checklist" class="hidden space-y-4">
+        <!-- 모임 정보 및 주소 복사 -->
+        <div class="surface-card p-4">
           <div class="flex items-start justify-between gap-2">
             <div>
-              <span class="text-xs font-extrabold tracking-wider text-aria-burgundy uppercase">DESTINATION</span>
-              <h2 class="text-lg font-extrabold text-aria-text mt-0.5">
-                웨스틴 조선 서울 (LL층 아리아)
-              </h2>
-              <p class="text-[14px] text-aria-body mt-1">
-                서울 중구 소공로 106 · 시청역 6번 / 을지로입구역 7·8번 출구
-              </p>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full badge-forest">2026. 12. 05 (토) 디너</span>
+              <h2 class="text-base font-extrabold text-primary-theme mt-1.5">웨스틴 조선 서울 아리아</h2>
+              <p class="text-xs text-secondary-theme mt-0.5">서울 중구 소공로 106 (LL층)</p>
             </div>
-            <button
-              type="button"
-              onclick="copyAddress()"
-              class="shrink-0 px-3.5 py-2 rounded-xl bg-white border border-aria-border text-[13px] font-bold text-aria-text shadow-sm active:scale-95 transition-transform"
-            >
+            <button type="button" onclick="copyAddress()" class="px-3 py-2 rounded-xl text-xs font-bold border active:scale-95 transition whitespace-nowrap" style="background-color: var(--bg-subtle); border-color: var(--border-color); color: var(--text-primary);">
               주소 복사
             </button>
           </div>
-
-          <!-- 주말 디너 타임 기준 시간 안내 -->
-          <div class="mt-3.5 pt-3 border-t border-aria-border flex flex-wrap items-center justify-between gap-2 text-[13px]">
-            <span class="text-aria-muted font-semibold">주말 디너 운영 안내:</span>
-            <span class="font-extrabold text-aria-green">1부 17:20~19:20 / 2부 19:50~21:50</span>
+          <div class="mt-3 pt-3 border-t text-xs text-secondary-theme flex justify-between" style="border-color: var(--border-color);">
+            <span>1부: 17:20 ~ 19:20</span>
+            <span>2부: 19:50 ~ 21:50</span>
           </div>
         </div>
 
-        <!-- 4개 출발지 선택 탭 -->
-        <div>
-          <label class="block text-[14px] font-extrabold text-aria-text mb-2 px-1">
-            📍 본인의 출발역을 선택하세요
-          </label>
-          <div class="grid grid-cols-2 gap-2.5" id="origin-selector">
-            <button type="button" data-origin="osan" onclick="selectOrigin('osan')" class="origin-btn p-3.5 rounded-2xl text-left border transition-all">
-              <div class="text-xs font-semibold opacity-80">경기 남부 · 1호선</div>
-              <div class="text-[15px] font-extrabold mt-0.5">오산역 출발</div>
-            </button>
-            <button type="button" data-origin="guri" onclick="selectOrigin('guri')" class="origin-btn p-3.5 rounded-2xl text-left border transition-all">
-              <div class="text-xs font-semibold opacity-80">경기 동부 · 8호선</div>
-              <div class="text-[15px] font-extrabold mt-0.5">구리(장자호수공원역)</div>
-            </button>
-            <button type="button" data-origin="pangyo" onclick="selectOrigin('pangyo')" class="origin-btn p-3.5 rounded-2xl text-left border transition-all">
-              <div class="text-xs font-semibold opacity-80">성남 · 신분당선</div>
-              <div class="text-[15px] font-extrabold mt-0.5">판교역 출발</div>
-            </button>
-            <button type="button" data-origin="sinseol" onclick="selectOrigin('sinseol')" class="origin-btn p-3.5 rounded-2xl text-left border transition-all">
-              <div class="text-xs font-semibold opacity-80">서울 동북 · 1호선</div>
-              <div class="text-[15px] font-extrabold mt-0.5">신설동역 출발</div>
-            </button>
+        <!-- 준비 체크리스트 -->
+        <div class="surface-card p-4">
+          <h3 class="text-base font-extrabold text-primary-theme mb-1">방문 전 체크리스트</h3>
+          <p class="text-xs text-muted-theme mb-3">할인 혜택과 주차 등록을 미리 챙기세요.</p>
+          <div id="prep-list" class="space-y-2"></div>
+        </div>
+
+        <!-- 결제 할인 팁 -->
+        <div class="surface-card p-4 space-y-2.5">
+          <h3 class="text-base font-extrabold text-primary-theme">💳 추천 할인 & 주차 팁</h3>
+          <div class="surface-subtle p-3 text-xs space-y-1">
+            <div class="font-bold text-primary-theme">1. 현대카드 M포인트몰 식사권</div>
+            <div class="text-secondary-theme">주말 디너 식사권을 M포인트(최대 50%)로 사전 구매 가능 여부 확인</div>
           </div>
-        </div>
-
-        <!-- 선택된 출발지 상세 경로 카드 -->
-        <div id="route-detail-container" class="clean-card rounded-2xl p-4 sm:p-5 space-y-4">
-          <!-- JS에서 동적 렌더링 -->
-        </div>
-
-        <!-- 외부 지도 앱 바로가기 -->
-        <div class="grid grid-cols-2 gap-2.5">
-          <a
-            href="https://map.naver.com/p/search/%EC%9B%A8%EC%8A%A4%ED%8B%B4%20%EC%A1%B0%EC%84%A0%20%EC%84%9C%EC%9A%B8%20%EC%95%84%EB%A6%AC%EC%95%84"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center justify-center gap-2 py-3.5 px-3 rounded-2xl bg-[#03C75A] text-white text-[14px] font-extrabold shadow-sm active:scale-95 transition-transform"
-          >
-            <span class="px-1.5 py-0.5 rounded bg-white/20 text-xs">N</span> 네이버 지도
-          </a>
-          <a
-            href="https://map.kakao.com/link/search/%EC%9B%A8%EC%8A%A4%ED%8B%B4%20%EC%A1%B0%EC%84%A0%20%EC%84%9C%EC%9A%B8%20%EC%95%84%EB%A6%AC%EC%95%84"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center justify-center gap-2 py-3.5 px-3 rounded-2xl bg-[#FEE500] text-[#191919] text-[14px] font-extrabold shadow-sm active:scale-95 transition-transform"
-          >
-            <span class="px-1.5 py-0.5 rounded bg-black/10 text-xs">K</span> 카카오맵
-          </a>
-        </div>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- TAB 4: 모임 체크 & 할인 팁 (Info & Tips)     -->
-      <!-- ========================================== -->
-      <section id="tab-info" class="tab-panel hidden space-y-4">
-        
-        <!-- D-Day 카운트다운 배너 -->
-        <div class="holiday-banner rounded-2xl p-5 text-center">
-          <span class="inline-block px-3 py-1 rounded-full bg-aria-burgundy text-white text-xs font-bold">
-            2026년 12월 5일 (토) 연말 모임
-          </span>
-          <h2 id="dday-title" class="font-serif text-3xl font-extrabold text-aria-burgundy mt-2.5">
-            D-10
-          </h2>
-          <p class="text-[14px] font-semibold text-aria-body mt-1">
-            웨스틴 조선 서울 아리아 · LL층(저층 로비)
-          </p>
-        </div>
-
-        <!-- 모임 준비 체크리스트 -->
-        <div class="clean-card rounded-2xl p-4 sm:p-5 space-y-3">
-          <h3 class="text-[15px] font-extrabold text-aria-text flex items-center gap-1.5">
-            <span>✅</span> 4인 모임 필수 체크리스트
-          </h3>
-          <div id="prep-checklist" class="space-y-2.5">
-            <!-- JS 동적 렌더링 -->
+          <div class="surface-subtle p-3 text-xs space-y-1">
+            <div class="font-bold text-primary-theme">2. 네이버 예약 / SSG닷컴 / 제휴 카드</div>
+            <div class="text-secondary-theme">12월 연말 시즌은 카드사(신한·삼성·우리 등) 프로모션 및 온라인 사전 예약 할인 여부 체크</div>
           </div>
-        </div>
-
-        <!-- 결제 할인 & 주차 꿀팁 -->
-        <div class="clean-card rounded-2xl p-4 sm:p-5 space-y-3">
-          <h3 class="text-[15px] font-extrabold text-aria-text flex items-center gap-1.5">
-            <span>💳</span> 결제 할인 & 주차 이용 팁
-          </h3>
-          <div class="space-y-2.5 text-[14px] leading-relaxed">
-            <div class="p-3.5 rounded-xl bg-aria-sub border border-aria-border">
-              <div class="font-extrabold text-aria-burgundy">1. 사전 식사권 & 포인트 활용</div>
-              <p class="text-aria-body mt-1">
-                현대카드 M포인트몰(50% 포인트 결제 식사권), SSG닷컴/네이버 예약 프로모션, 신세계상품권 결제 가능 여부를 방문 전 미리 확인하면 체감 단가를 크게 낮출 수 있습니다.
-              </p>
-            </div>
-            <div class="p-3.5 rounded-xl bg-aria-sub border border-aria-border">
-              <div class="font-extrabold text-aria-green">2. 제휴 신용카드 현장 할인</div>
-              <p class="text-aria-body mt-1">
-                결제 전 보유 중인 프리미엄 카드(신한·삼성·현대·우리·KB 등)의 조선호텔 식음료(F&B) 제휴 할인 적용 여부를 카운터에 꼭 문의하세요.
-              </p>
-            </div>
-            <div class="p-3.5 rounded-xl bg-aria-sub border border-aria-border">
-              <div class="font-extrabold text-aria-amber">3. 주차 등록 안내</div>
-              <p class="text-aria-body mt-1">
-                식사 후 계산 시 차량 번호를 말씀하시면 무료 주차 등록이 가능합니다. 토요일 오후에는 호텔 주변(명동·을지로) 정체가 심하므로 가급적 지하철 이용을 권장합니다.
-              </p>
-            </div>
+          <div class="surface-subtle p-3 text-xs space-y-1">
+            <div class="font-bold text-primary-theme">3. 주차 등록 안내</div>
+            <div class="text-secondary-theme">식사 후 리셉션 결제 시 차량 번호 등록 (연말 토요일 오후에는 시청·명동 일대 정체가 심하므로 대중교통 권장)</div>
           </div>
-        </div>
-
-        <!-- 드레스 코드 & 컨디션 팁 -->
-        <div class="clean-card rounded-2xl p-4 sm:p-5">
-          <h3 class="text-[15px] font-extrabold text-aria-text flex items-center gap-1.5">
-            <span>👔</span> 뷔페 최적화 복장 & 컨디션 팁
-          </h3>
-          <ul class="mt-2.5 space-y-2 text-[14px] text-aria-body leading-relaxed list-disc list-inside">
-            <li>연말 호텔 분위기에 어울리면서도 허리 조임이 적은 니트·원피스·밴딩 슬랙스 추천</li>
-            <li>당일 점심은 12시~1시 사이 가볍게(계란, 샐러드, 요거트 등) 섭취해 위장 예열</li>
-            <li>식사 중 탄산음료 대신 따뜻한 차나 생수를 마셔야 소화 속도가 빨라짐</li>
-          </ul>
         </div>
       </section>
 
     </main>
 
-    <!-- 하단 고정 탭 네비게이션 (순백색 고대비 + 딥 버건디 액센트) -->
-    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-aria-border bottom-nav-safe shadow-[0_-4px_16px_rgba(0,0,0,0.04)]">
-      <div class="max-w-lg mx-auto grid grid-cols-4 gap-1 px-2 pt-2">
-        <button type="button" data-tab="strategy" onclick="switchTab('strategy')" class="nav-tab-btn relative flex flex-col items-center justify-center py-1.5 rounded-xl text-aria-burgundy transition-colors">
-          <span class="tab-indicator absolute top-0 w-8 h-0.5 rounded-full bg-aria-burgundy"></span>
-          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-          </svg>
-          <span class="text-xs font-extrabold">공략전략</span>
+    <!-- 하단 네비게이션 바 -->
+    <nav class="fixed bottom-0 left-0 right-0 z-30 border-t safe-bottom backdrop-blur-md" style="background-color: color-mix(in srgb, var(--bg-card) 94%, transparent); border-color: var(--border-color);">
+      <div class="max-w-lg mx-auto grid grid-cols-4 px-2 pt-2">
+        <button type="button" onclick="switchTab('strategy')" data-tab="strategy" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl transition">
+          <span class="text-lg leading-none mb-1">🎯</span>
+          <span class="text-xs font-bold">공략전략</span>
         </button>
-
-        <button type="button" data-tab="menu" onclick="switchTab('menu')" class="nav-tab-btn relative flex flex-col items-center justify-center py-1.5 rounded-xl text-aria-muted transition-colors">
-          <span class="tab-indicator hidden absolute top-0 w-8 h-0.5 rounded-full bg-aria-burgundy"></span>
-          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
-          </svg>
+        <button type="button" onclick="switchTab('menus')" data-tab="menus" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl transition">
+          <span class="text-lg leading-none mb-1">🥩</span>
           <span class="text-xs font-bold">시그니처</span>
         </button>
-
-        <button type="button" data-tab="route" onclick="switchTab('route')" class="nav-tab-btn relative flex flex-col items-center justify-center py-1.5 rounded-xl text-aria-muted transition-colors">
-          <span class="tab-indicator hidden absolute top-0 w-8 h-0.5 rounded-full bg-aria-burgundy"></span>
-          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-          </svg>
+        <button type="button" onclick="switchTab('routes')" data-tab="routes" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl transition">
+          <span class="text-lg leading-none mb-1">🚇</span>
           <span class="text-xs font-bold">출발동선</span>
         </button>
-
-        <button type="button" data-tab="info" onclick="switchTab('info')" class="nav-tab-btn relative flex flex-col items-center justify-center py-1.5 rounded-xl text-aria-muted transition-colors">
-          <span class="tab-indicator hidden absolute top-0 w-8 h-0.5 rounded-full bg-aria-burgundy"></span>
-          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
+        <button type="button" onclick="switchTab('checklist')" data-tab="checklist" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl transition">
+          <span class="text-lg leading-none mb-1">✅</span>
           <span class="text-xs font-bold">할인·체크</span>
         </button>
       </div>
     </nav>
 
-    <!-- 토스트 메시지 박스 (alert 대체) -->
-    <div id="toast-box" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-opacity duration-300">
-      <div class="px-4 py-2.5 rounded-full bg-aria-text text-white text-[13px] font-bold shadow-xl whitespace-nowrap">
-        주소가 클립보드에 복사되었습니다!
-      </div>
-    </div>
+  </div>
 
+  <!-- 토스트 메시지 -->
+  <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full text-xs font-bold shadow-lg opacity-0 pointer-events-none transition-opacity duration-200" style="background-color: var(--text-primary); color: var(--bg-page);">
+    메시지
   </div>
 
   <script>
     // ==========================================
-    // 1. 데이터 정의 (2026.12.05 웨스틴 조선 아리아)
+    // 1. 데이터 정의
     // ==========================================
     const PLATE_STEPS = [
       {
-        id: 'plate1',
-        step: 'PLATE 01 · 오픈 직후 선점',
-        badge: '단가 1순위',
-        title: '그릴 카빙 & 대게·랍스터 선점',
-        tip: '입장 직후 샐러드바를 지나쳐 가장 줄이 긴 그릴과 해산물 찜 코너부터 공략하세요.',
-        items: [
-          '숄더랙 양갈비 구이 (민트 젤리 곁들이기)',
-          '대게 다리 찜 & 랍스터 구이',
-          '소고기 안심/채끝 스테이크 & LA갈비'
-        ]
+        id: 'p1',
+        step: '1접시 · 워밍업 & 선점',
+        title: '대게 다리 + 훈제연어·카르파초',
+        desc: '오픈 직후 가장 먼저 소진되는 대게를 먼저 확보하고, 가벼운 콜드 애피타이저로 위장을 깨웁니다.',
+        tag: '탄수화물 금지'
       },
       {
-        id: 'plate2',
-        step: 'PLATE 02 · 중식 & 딤섬',
-        badge: '홍연 노하우',
-        title: '고급 중식 & 수제 딤섬 코너',
-        tip: '조선호텔 중식당 홍연 레시피 기반의 전복·해삼 요리와 얇은 피 딤섬을 1~2개씩 담으세요.',
-        items: [
-          '전가복 (전복·해삼·관자) & 팔보채',
-          '하가우(새우 딤섬) & 육즙 소룡포',
-          '북경오리(베이징덕) & 칠리새우'
-        ]
+        id: 'p2',
+        step: '2접시 · 메인 그릴 공략',
+        title: '양갈비 + 소고기 안심 + LA갈비 + 전복구이',
+        desc: '아리아의 최고 단가 코너입니다. 갓 구워져 트레이가 채워질 때 구운 채소와 함께 소량씩 가져오세요.',
+        tag: '핵심 본전 코너'
       },
       {
-        id: 'plate3',
-        step: 'PLATE 03 · 일식 & 입가심 리셋',
-        badge: '느끼함 해소',
-        title: '사시미 & 즉석 해산물 백짬뽕',
-        tip: '초밥(밥) 대신 회 위주로 맛보고, 즉석면 코너의 얼큰한 백짬뽕 국물로 위장을 리셋하세요.',
-        items: [
-          '참치 뱃살·단새우·광어 사시미 (회 위주)',
-          '즉석 해산물 백짬뽕 (면은 적게, 국물 위주)',
-          '인도 탄두리 연어/치킨 (커리 소스만 살짝)'
-        ]
+        id: 'p3',
+        step: '3접시 · 호텔 중식 시그니처',
+        title: '전가복 + 팔보채 + 북경오리 + 딤섬(하가우)',
+        desc: '중식당 홍연 노하우가 담긴 요리들입니다. 볶음밥이나 짜장면은 피하고 해삼·전복 건더기 위주로 담으세요.',
+        tag: '중식 퀄리티 최상'
       },
       {
-        id: 'plate4',
-        step: 'PLATE 04 · 2차 리필 & 디저트',
-        badge: '조선델리 퀄리티',
-        title: '베스트 메뉴 앵콜 & 조선델리 디저트',
-        tip: '가장 맛있었던 그릴·해산물을 한 번 더 리필한 뒤, 파인애플(소화 효소)과 케이크로 마무리합니다.',
-        items: [
-          '가장 맛있었던 시그니처 1~2종 앵콜 리필',
-          '조선델리 딸기 생크림 케이크 & 티라미수',
-          '생과일(파인애플·망고·멜론) & TWG 홍차/커피'
-        ]
+        id: 'p4',
+        step: '4접시 · 입맛 리셋 & 리필',
+        title: '해산물 백짬뽕 국물 + 참치뱃살 사시미 + 최애 리필',
+        desc: '느끼함이 올라올 때 즉석면 코너의 얼큰한 짬뽕 국물로 입을 씻어낸 뒤 가장 맛있었던 고기를 한 번 더 리필합니다.',
+        tag: '위장 리셋 타이밍'
+      },
+      {
+        id: 'p5',
+        step: '5접시 · 조선델리 디저트 마무리',
+        title: '딸기 생크림 케이크 + 파인애플 + TWG 홍차/커피',
+        desc: '조선델리 베이커리 케이크와 단백질 소화를 돕는 파인애플·키위로 완벽하게 마무리합니다.',
+        tag: '소화 및 마무리'
       }
     ];
 
     const SIGNATURE_MENUS = [
-      {
-        id: 'm1',
-        category: 'grill',
-        categoryName: '그릴·육류',
-        tag: '아리아 부동의 1위',
-        name: '프렌치 랙 / 숄더랙 양갈비',
-        desc: '잡내가 전혀 없고 육즙이 풍부한 아리아의 자존심. 갓 구워져 트레이가 채워질 때 바로 가져오세요.'
-      },
-      {
-        id: 'm2',
-        category: 'seafood',
-        categoryName: '해산물·일식',
-        tag: '오픈 직후 품절주의',
-        name: '대게 다리 찜 & 랍스터 그릴',
-        desc: '수율이 꽉 찬 대게와 쫄깃한 랍스터 구이. 주말 디너 오픈 직후 가장 먼저 확보해야 할 고단가 메뉴입니다.'
-      },
-      {
-        id: 'm3',
-        category: 'grill',
-        categoryName: '그릴·육류',
-        tag: '단짠 육즙 폭발',
-        name: 'LA갈비 & 전복 구이',
-        desc: '적당히 달짝지근한 양념이 배어 부드러운 LA갈비와 쫄깃한 전복 구이의 조화가 일품입니다.'
-      },
-      {
-        id: 'm4',
-        category: 'chinese',
-        categoryName: '중식·딤섬',
-        tag: '중식당 홍연 퀄리티',
-        name: '전가복 & 팔보채',
-        desc: '전복, 해삼, 관자 등 고급 해산물이 아낌없이 들어간 중식 시그니처. 단품 요리 수준의 깊은 풍미를 자랑합니다.'
-      },
-      {
-        id: 'm5',
-        category: 'chinese',
-        categoryName: '중식·딤섬',
-        tag: '즉석 찜기 코너',
-        name: '하가우 & 소룡포 딤섬',
-        desc: '투명하고 쫄깃한 피에 통새우가 들어간 하가우와 진한 육즙의 소룡포는 1~2피스씩 필수 코스로 추천합니다.'
-      },
-      {
-        id: 'm6',
-        category: 'chinese',
-        categoryName: '중식·딤섬',
-        tag: '입가심 리셋 치트키',
-        name: '즉석 해산물 백짬뽕 (냉이 짬뽕)',
-        desc: '고기와 해산물을 많이 먹어 느끼함이 올라올 때 주문하면 시원칼칼한 국물이 입맛을 완벽히 되살려줍니다.'
-      },
-      {
-        id: 'm7',
-        category: 'seafood',
-        categoryName: '해산물·일식',
-        tag: '밥 없이 고단백',
-        name: '참치 뱃살 & 단새우 사시미',
-        desc: '포만감을 주는 초밥 대신 셰프가 썰어주는 두툼한 참치 뱃살, 단새우, 제철 활어회 위주로 공략하세요.'
-      },
-      {
-        id: 'm8',
-        category: 'dessert',
-        categoryName: '디저트',
-        tag: '조선델리 베이커리',
-        name: '생크림 케이크 & 젤라또',
-        desc: '호텔 1층 조선델리의 노하우가 담긴 조각 케이크와 수제 젤라또, 에스프레소/TWG 티로 완벽하게 마무리하세요.'
-      }
+      { id: 'm1', cat: 'grill', name: '숄더랙 양갈비 구이', badge: '1순위', desc: '잡내 없이 부드러운 육즙. 민트젤리 또는 홀그레인 머스타드와 곁들이세요.' },
+      { id: 'm2', cat: 'seafood', name: '스팀 대게 다리 & 랍스터 구이', badge: '오픈런 필수', desc: '수율이 꽉 찬 대게 다리. 입장 직후 1~2번째 접시에 미리 확보하는 것이 좋습니다.' },
+      { id: 'm3', cat: 'grill', name: '소고기 안심 스테이크 & LA갈비', badge: '시그니처', desc: '부드러운 안심과 달짝지근한 한국식 LA갈비 조합.' },
+      { id: 'm4', cat: 'chinese', name: '전가복 & 팔보채', badge: '홍연 레시피', desc: '전복·해삼·관자가 큼직하게 들어간 고급 중식 요리.' },
+      { id: 'm5', cat: 'chinese', name: '하가우 & 소룡포 딤섬', badge: '추천', desc: '얇은 피 속에 탱글한 새우와 진한 육즙이 가득한 딤섬.' },
+      { id: 'm6', cat: 'seafood', name: '참치 뱃살 & 단새우 사시미', badge: '일식', desc: '초밥 대신 밥 없는 사시미로 2~3점만 깔끔하게 즐기세요.' },
+      { id: 'm7', cat: 'chinese', name: '즉석 해산물 백짬뽕 (냉이짬뽕)', badge: '리셋 필수', desc: '고기 먹은 뒤 느끼함을 한 번에 잡아주는 숨은 치트키.' },
+      { id: 'm8', cat: 'dessert', name: '탄두리 연어 & 인도 커리', badge: '별미', desc: '난(빵) 없이 탄두리 구이에 커리 소스만 살짝 곁들이면 입맛이 살아납니다.' },
+      { id: 'm9', cat: 'dessert', name: '조선델리 케이크 & 생과일', badge: '디저트', desc: '티라미수·생크림 케이크와 파인애플·멜론·아이스크림.' }
     ];
 
     const ROUTES_DATA = {
       osan: {
-        name: '오산역',
-        badge: '경기 남부 · 1호선 / 광역버스',
-        duration: '약 1시간 15분 ~ 1시간 25분',
-        recommendLeave: '1부(17:20) 기준 15:35 출발 / 2부(19:50) 기준 18:05 출발 권장',
-        summary: '지하철 1호선(급행/일반)을 이용하면 환승 없이 시청역까지 한 번에 이동할 수 있어 토요일 교통체증 걱정 없이 가장 정확합니다.',
+        name: '오산역 출발',
+        duration: '약 1시간 15분 ~ 25분',
+        recommend: '지하철 1호선 급행 또는 광역버스 추천',
+        depart1: '오후 3:45 출발 권장 (1부 17:20 기준)',
+        depart2: '오후 6:15 출발 권장 (2부 19:50 기준)',
         steps: [
-          {
-            title: '오산역 → 시청역 (수도권 1호선 직통)',
-            detail: '소요산·광운대행 1호선 탑승 후 시청역 하차 (급행 열차 시간표를 맞추면 10~15분 단축 가능).'
-          },
-          {
-            title: '시청역 6번 출구 → 웨스틴 조선 서울',
-            detail: '시청역 6번 출구로 나와 프라자호텔 뒤편 소공로 방향으로 도보 약 4~5분 이동 후 LL층 아리아로 내려갑니다.'
-          },
-          {
-            title: '대안 경로 (광역버스 M5532 / 5300번 등)',
-            detail: '오산역 환승센터에서 서울역·명동 방면 광역버스 탑승 후 남대문세무서·명동입구 하차 (도보 6분). 단, 토요일 오후 경부선 정체 유의.'
-          }
+          { mode: '지하철 1호선', title: '오산역 → 시청역 (약 1시간 12분)', detail: '1호선(광운대/청량리행) 탑승 후 환승 없이 시청역까지 한 번에 이동합니다. 급행 열차 시간을 맞추면 10분 이상 단축됩니다.' },
+          { mode: '도보 이동', title: '시청역 6번 출구 → 웨스틴 조선 서울 (도보 5분)', detail: '시청역 6번 출구로 나와 서울광장 지나 소공로 방향으로 직진하면 호텔 정문입니다.' },
+          { mode: '대안 (버스)', title: '오산역 광역버스 M5532 / 5300번 이용 시', detail: '사당역 또는 강남역 하차 후 지하철로 환승해야 하므로, 토요일 오후 경부고속도로 정체를 피하려면 1호선 직통이 가장 정확합니다.' }
         ]
       },
       guri: {
-        name: '구리(장자호수공원역)',
-        badge: '경기 동부 · 8호선 + 2호선 환승',
-        duration: '약 45분 ~ 50분',
-        recommendLeave: '1부(17:20) 기준 16:05 출발 / 2부(19:50) 기준 18:35 출발 권장',
-        summary: '별내선(8호선) 개통으로 잠실역까지 빠르게 진입한 뒤 2호선 외선순환으로 환승하면 을지로입구역까지 매우 쾌적하게 도착합니다.',
+        name: '장자호수공원역 출발 (구리)',
+        duration: '약 50분 ~ 58분',
+        recommend: '8호선 별내선 → 2호선 잠실역 환승 추천',
+        depart1: '오후 4:10 출발 권장 (1부 17:20 기준)',
+        depart2: '오후 6:40 출발 권장 (2부 19:50 기준)',
         steps: [
-          {
-            title: '장자호수공원역 → 잠실역 (8호선)',
-            detail: '모란행 8호선 탑승 후 잠실역 하차 (약 15분 소요).'
-          },
-          {
-            title: '잠실역 → 을지로입구역 (2호선 환승)',
-            detail: '2호선 외선순환(성수·왕십리·시청 방면) 환승 후 을지로입구역 하차 (약 25분 소요).'
-          },
-          {
-            title: '을지로입구역 7·8번 출구 → 웨스틴 조선 서울',
-            detail: '롯데백화점 본점 방면 7번 또는 8번 출구로 나와 소공로 건널목을 건너면 바로 웨스틴 조선 서울입니다 (도보 4분).'
-          }
+          { mode: '지하철 8호선', title: '장자호수공원역 → 잠실역 (약 17분)', detail: '8호선(모란행) 탑승 후 잠실역에서 2호선 내선순환(성수·을지로 방면)으로 환승합니다.' },
+          { mode: '지하철 2호선', title: '잠실역 → 을지로입구역 (약 28분)', detail: '을지로입구역 하차 후 7번 출구로 나옵니다.' },
+          { mode: '도보 이동', title: '을지로입구역 7번 출구 → 웨스틴 조선 서울 (도보 4분)', detail: '롯데백화점 본점 맞은편 소공로 방향으로 직진하면 바로 도착합니다.' }
         ]
       },
       pangyo: {
-        name: '판교역',
-        badge: '성남 · 신분당선 + 2호선 환승',
-        duration: '약 40분 ~ 45분',
-        recommendLeave: '1부(17:20) 기준 16:10 출발 / 2부(19:50) 기준 18:40 출발 권장',
-        summary: '신분당선으로 강남역까지 14분 만에 주파한 뒤 2호선으로 갈아타는 경로가 가장 빠르고 쾌적합니다.',
+        name: '판교역 출발',
+        duration: '약 42분 ~ 48분',
+        recommend: '신분당선 → 2호선 강남역 환승 (가장 빠름)',
+        depart1: '오후 4:20 출발 권장 (1부 17:20 기준)',
+        depart2: '오후 6:50 출발 권장 (2부 19:50 기준)',
         steps: [
-          {
-            title: '판교역 → 강남역 (신분당선)',
-            detail: '신사행 신분당선 탑승 후 강남역 하차 (4정거장, 약 14분 소요).'
-          },
-          {
-            title: '강남역 → 을지로입구역 (2호선 환승)',
-            detail: '2호선 내선순환(교대·사당·신도림·시청 방면) 탑승 후 을지로입구역 하차 (약 24분 소요).'
-          },
-          {
-            title: '대안: 광역버스 9000번 / M4102번',
-            detail: '판교역 버스정류장에서 명동·서울역 방면 광역버스 탑승 후 롯데백화점(을지로입구) 정류장 하차 시 바로 앞입니다.'
-          }
+          { mode: '신분당선', title: '판교역 → 강남역 (약 14분)', detail: '신분당선(신사행) 탑승 후 강남역에서 2호선 외선순환(교대·사당·시청 방면)으로 환승합니다.' },
+          { mode: '지하철 2호선', title: '강남역 → 시청역 또는 을지로입구역 (약 26분)', detail: '시청역(7번 출구) 또는 을지로입구역(7번 출구) 중 편한 역에서 하차합니다.' },
+          { mode: '도보 이동', title: '하차 후 호텔까지 도보 4~5분', detail: '퇴근·주말 나들이 차량으로 경부고속도로 및 한남대교 정체가 심하므로 신분당선+2호선 조합을 강력 추천합니다.' }
         ]
       },
       sinseol: {
-        name: '신설동역',
-        badge: '서울 동북 · 1호선 / 2호선 초근접',
-        duration: '약 15분 ~ 20분',
-        recommendLeave: '1부(17:20) 기준 16:35 출발 / 2부(19:50) 기준 19:05 출발 권장',
-        summary: '가장 가까운 출발지입니다. 1호선(시청역)이나 2호선 지선(성수·을지로입구) 중 편한 노선으로 15분 내외에 도착합니다.',
+        name: '신설동역 출발',
+        duration: '약 18분 ~ 22분',
+        recommend: '1호선 직통 (초근거리 · 4정거장)',
+        depart1: '오후 4:40 출발 권장 (1부 17:20 기준)',
+        depart2: '오후 7:10 출발 권장 (2부 19:50 기준)',
         steps: [
-          {
-            title: '신설동역 → 시청역 (1호선 직통 · 추천)',
-            detail: '인천·신창행 1호선 탑승 후 동묘앞-동대문-종로5가-종로3가-종각-시청역 하차 (6정거장, 약 12분 소요).'
-          },
-          {
-            title: '시청역 6번 출구 → 웨스틴 조선 서울',
-            detail: '6번 출구로 나와 프라자호텔 뒤편 골목으로 진입하면 4분 만에 호텔 본관에 도착합니다.'
-          },
-          {
-            title: '택시 이용 시',
-            detail: '청계천로 또는 종로를 따라 이동 시 약 12~15분 소요 (기본요금~8,000원 내외, 토요일 저녁 종로 정체만 피하면 쾌적).'
-          }
+          { mode: '지하철 1호선', title: '신설동역 → 시청역 (약 11분)', detail: '1호선(인천/서동탄/신창행) 탑승 후 동묘앞-동대문-종로5가-종로3가-종각 다음 시청역 하차.' },
+          { mode: '도보 이동', title: '시청역 6번 출구 → 웨스틴 조선 서울 (도보 5분)', detail: '이동 시간이 가장 짧으므로 선발대로 먼저 도착해 LL층 입장 줄을 선점해 주시면 최고의 서포터가 됩니다!' }
         ]
       }
     };
 
     const PREP_ITEMS = [
-      { id: 'p1', text: '12/5(토) 예약 시간(1부 17:20 / 2부 19:50) 및 인원 4명 최종 재확인' },
-      { id: 'p2', text: '현대카드 M포인트몰 식사권 / SSG·네이버 예약 / 제휴 카드 할인 혜택 확인' },
-      { id: 'p3', text: '입장 15분 전 웨스틴 조선 서울 LL층(저층 로비) 아리아 앞 집결' },
-      { id: 'p4', text: '당일 점심은 소화가 잘되는 가벼운 식단으로 위장 컨디션 예열' },
-      { id: 'p5', text: '자차 이용 시 식사 후 카운터에서 차량 번호 무료 주차 등록' }
+      { id: 'c1', text: '12월 5일(토) 디너 예약 시간(1부/2부) 및 인원 최종 확인' },
+      { id: 'c2', text: '결제 카드 할인 / 현대카드 M포인트몰 식사권 사전 확인' },
+      { id: 'c3', text: '입장 15분 전 LL층(저층 로비) 아리아 입구 집결' },
+      { id: 'c4', text: '식사 3시간 전 계란·요거트 등으로 위장 가볍게 예열하기' },
+      { id: 'c5', text: '자차 이용 시 계산대에서 차량 번호 주차 등록하기' }
     ];
 
     // ==========================================
-    // 2. 상태 관리 (LocalStorage 연동)
+    // 2. 상태 관리 및 주간/야간 모드 연동
     // ==========================================
-    const STORAGE_KEY = 'maat_2026_aria_state_v1';
+    const STORAGE_KEY = 'maat_2026_aria_state_v2';
     let state = {
       activeTab: 'strategy',
       checkedPlates: {},
       pickedMenus: ['m1', 'm2', 'm4'],
       menuFilter: 'all',
       selectedOrigin: 'osan',
-      checkedPreps: {}
+      checkedPreps: {},
+      themeOverride: null // null이면 핸드폰 시스템 설정 따름, 'light' or 'dark'
     };
+
+    function applyTheme() {
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = state.themeOverride ? state.themeOverride === 'dark' : systemDark;
+
+      document.documentElement.classList.toggle('dark', isDark);
+
+      const metaTheme = document.getElementById('meta-theme-color');
+      if (metaTheme) {
+        metaTheme.setAttribute('content', isDark ? '#141211' : '#FAF8F5');
+      }
+
+      const iconEl = document.getElementById('theme-icon');
+      const labelEl = document.getElementById('theme-label');
+      if (iconEl) iconEl.textContent = isDark ? '🌙' : '☀️';
+      if (labelEl) {
+        labelEl.textContent = state.themeOverride ? (isDark ? '야간' : '주간') : '자동';
+      }
+    }
+
+    function toggleThemeMode() {
+      const currentlyDark = document.documentElement.classList.contains('dark');
+      state.themeOverride = currentlyDark ? 'light' : 'dark';
+      saveState();
+      applyTheme();
+      showToast(currentlyDark ? '주간 모드로 전환되었습니다.' : '야간(다크) 모드로 전환되었습니다.');
+    }
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (!state.themeOverride) {
+          applyTheme();
+        }
+      });
+    }
 
     function loadState() {
       try {
@@ -716,7 +500,7 @@
           state = { ...state, ...parsed };
         }
       } catch (e) {
-        // 사파리 프라이빗 브라우징 등 스토리지 제한 예외 처리
+        // 사파리 프라이빗 브라우징 등 예외 무시
       }
     }
 
@@ -732,299 +516,219 @@
     // 3. D-Day 계산기 (2026년 12월 5일 기준)
     // ==========================================
     function updateDDay() {
+      const badge = document.getElementById('dday-badge');
+      if (!badge) return;
       const target = new Date('2026-12-05T00:00:00+09:00');
       const now = new Date();
-      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const targetStart = new Date(target.getFullYear(), target.getMonth(), target.getDate());
-      const diffDays = Math.round((targetStart - todayStart) / (1000 * 60 * 60 * 24));
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const targetDay = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+      const diffDays = Math.round((targetDay - today) / (1000 * 60 * 60 * 24));
 
-      let label = 'D-DAY';
-      let titleText = '오늘이 바로 아리아 디너 날!';
       if (diffDays > 0) {
-        label = `D-${diffDays}`;
-        titleText = `D-${diffDays} (${diffDays}일 남음)`;
-      } else if (diffDays < 0) {
-        label = `D+${Math.abs(diffDays)}`;
-        titleText = `2026 연말 모임 완료 (${label})`;
+        badge.textContent = `D-${diffDays}`;
+      } else if (diffDays === 0) {
+        badge.textContent = 'D-DAY 오늘!';
+      } else {
+        badge.textContent = `D+${Math.abs(diffDays)}`;
       }
-
-      const badgeEl = document.getElementById('dday-badge');
-      const titleEl = document.getElementById('dday-title');
-      if (badgeEl) badgeEl.textContent = label;
-      if (titleEl) titleEl.textContent = titleText;
     }
 
     // ==========================================
-    // 4. 탭 전환 로직
-    // ==========================================
-    function switchTab(tabName) {
-      state.activeTab = tabName;
-
-      document.querySelectorAll('.tab-panel').forEach(panel => {
-        panel.classList.add('hidden');
-      });
-      const targetPanel = document.getElementById(`tab-${tabName}`);
-      if (targetPanel) targetPanel.classList.remove('hidden');
-
-      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
-        const isTarget = btn.dataset.tab === tabName;
-        const indicator = btn.querySelector('.tab-indicator');
-        const label = btn.querySelector('span:last-child');
-
-        btn.classList.toggle('text-aria-burgundy', isTarget);
-        btn.classList.toggle('bg-aria-burgundy-soft', isTarget);
-        btn.classList.toggle('text-aria-muted', !isTarget);
-
-        if (indicator) {
-          indicator.classList.toggle('hidden', !isTarget);
-        }
-        if (label) {
-          label.classList.toggle('font-extrabold', isTarget);
-          label.classList.toggle('font-bold', !isTarget);
-        }
-      });
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 5. 렌더링 함수들
+    // 4. 화면 렌더링 함수들
     // ==========================================
     function renderPlatePlan() {
-      const container = document.getElementById('plate-plan-container');
+      const container = document.getElementById('plate-list');
+      const progressEl = document.getElementById('plate-progress');
       if (!container) return;
 
-      container.innerHTML = PLATE_STEPS.map(plate => {
-        const itemsHtml = plate.items.map((itemText, idx) => {
-          const itemKey = `${plate.id}-${idx}`;
-          const isChecked = !!state.checkedPlates[itemKey];
-          return `
-            <label class="flex items-center gap-3 p-2.5 rounded-xl border cursor-pointer transition-colors ${
-              isChecked
-                ? 'bg-aria-green-soft/70 border-emerald-200'
-                : 'bg-aria-sub/60 border-aria-border active:bg-aria-sub'
-            }">
-              <input
-                type="checkbox"
-                ${isChecked ? 'checked' : ''}
-                onchange="togglePlateCheck('${itemKey}')"
-                class="w-4 h-4 rounded accent-[#14532D] shrink-0"
-              />
-              <span class="text-[14px] font-medium ${isChecked ? 'line-through text-aria-muted' : 'text-aria-text'}">
-                ${itemText}
-              </span>
-            </label>
-          `;
-        }).join('');
-
+      let doneCount = 0;
+      container.innerHTML = PLATE_STEPS.map(item => {
+        const checked = !!state.checkedPlates[item.id];
+        if (checked) doneCount++;
         return `
-          <div class="clean-card rounded-2xl p-4 sm:p-5">
-            <div class="flex items-center justify-between gap-2">
-              <span class="font-serif text-xs font-extrabold tracking-wider text-aria-burgundy">${plate.step}</span>
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-aria-amber-soft text-aria-amber border border-amber-300">
-                ${plate.badge}
-              </span>
+          <div onclick="togglePlateCheck('${item.id}')" class="p-3.5 rounded-2xl border cursor-pointer transition active:scale-[0.99]" style="background-color: ${checked ? 'var(--bg-subtle)' : 'var(--bg-card)'}; border-color: var(--border-color); opacity: ${checked ? '0.72' : '1'};">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded-md flex items-center justify-center text-xs font-extrabold border" style="background-color: ${checked ? 'var(--accent-forest)' : 'transparent'}; border-color: ${checked ? 'var(--accent-forest)' : 'var(--border-color)'}; color: ${checked ? '#FFFFFF' : 'transparent'};">✓</span>
+                <span class="text-xs font-extrabold" style="color: var(--accent-burgundy);">${item.step}</span>
+              </div>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full badge-amber">${item.tag}</span>
             </div>
-            <h4 class="text-base font-extrabold text-aria-text mt-1.5">${plate.title}</h4>
-            <p class="text-[14px] text-aria-body mt-1 leading-relaxed">${plate.tip}</p>
-            <div class="mt-3 space-y-2">
-              ${itemsHtml}
-            </div>
+            <div class="text-sm font-extrabold text-primary-theme mt-1.5 ${checked ? 'line-through' : ''}">${item.title}</div>
+            <p class="text-xs text-secondary-theme mt-1 leading-relaxed">${item.desc}</p>
           </div>
         `;
       }).join('');
-    }
 
-    function togglePlateCheck(itemKey) {
-      state.checkedPlates[itemKey] = !state.checkedPlates[itemKey];
-      saveState();
-      renderPlatePlan();
-    }
-
-    function resetPlateChecks() {
-      state.checkedPlates = {};
-      saveState();
-      renderPlatePlan();
-      showToast('접시 체크리스트가 초기화되었습니다.');
+      if (progressEl) {
+        progressEl.textContent = `${doneCount} / ${PLATE_STEPS.length} 완료`;
+      }
     }
 
     function renderMenus() {
-      const container = document.getElementById('menu-cards-container');
-      const countBadge = document.getElementById('header-pick-count');
-      if (countBadge) countBadge.textContent = state.pickedMenus.length;
-      if (!container) return;
+      const listEl = document.getElementById('menu-list');
+      const countEl = document.getElementById('picked-count');
+      if (!listEl) return;
+
+      // 필터 버튼 스타일 갱신
+      document.querySelectorAll('.menu-filter-btn').forEach(btn => {
+        const isActive = btn.dataset.filter === state.menuFilter;
+        btn.style.backgroundColor = isActive ? 'var(--accent-burgundy)' : 'var(--bg-subtle)';
+        btn.style.color = isActive ? (document.documentElement.classList.contains('dark') ? '#141211' : '#FFFFFF') : 'var(--text-secondary)';
+      });
 
       const filtered = state.menuFilter === 'all'
         ? SIGNATURE_MENUS
-        : SIGNATURE_MENUS.filter(m => m.category === state.menuFilter);
+        : SIGNATURE_MENUS.filter(m => m.cat === state.menuFilter);
 
-      container.innerHTML = filtered.map(menu => {
+      listEl.innerHTML = filtered.map(menu => {
         const isPicked = state.pickedMenus.includes(menu.id);
         return `
-          <div class="clean-card rounded-2xl p-4 sm:p-5 transition-all ${isPicked ? 'ring-2 ring-aria-burgundy border-aria-burgundy' : ''}">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 flex-wrap">
-                  <span class="text-xs font-extrabold text-aria-burgundy">${menu.categoryName}</span>
-                  <span class="text-aria-muted text-xs">•</span>
-                  <span class="px-2.5 py-0.5 rounded-md bg-aria-green-soft text-aria-green text-xs font-bold border border-emerald-200">
-                    ${menu.tag}
-                  </span>
-                </div>
-                <h3 class="text-base font-extrabold text-aria-text mt-1.5">${menu.name}</h3>
+          <div class="surface-card p-3.5 flex items-start justify-between gap-3">
+            <div class="flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-sm font-extrabold text-primary-theme">${menu.name}</span>
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full badge-burgundy">${menu.badge}</span>
               </div>
-              <button
-                type="button"
-                onclick="toggleMenuPick('${menu.id}')"
-                class="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center border text-lg transition-all active:scale-90 ${
-                  isPicked
-                    ? 'bg-aria-burgundy text-white border-aria-burgundy font-bold shadow-sm'
-                    : 'bg-aria-sub text-aria-muted border-aria-border'
-                }"
-                aria-label="${menu.name} 찜하기"
-              >
-                ${isPicked ? '★' : '☆'}
-              </button>
+              <p class="text-xs text-secondary-theme mt-1 leading-relaxed">${menu.desc}</p>
             </div>
-            <p class="text-[14px] text-aria-body mt-2 leading-relaxed">
-              ${menu.desc}
-            </p>
+            <button type="button" onclick="toggleMenuPick('${menu.id}')" aria-label="찜하기" class="w-10 h-10 rounded-xl border flex items-center justify-center text-base font-bold shrink-0 active:scale-90 transition" style="background-color: ${isPicked ? 'var(--accent-amber-soft)' : 'var(--bg-subtle)'}; border-color: var(--border-color); color: ${isPicked ? 'var(--accent-amber)' : 'var(--text-muted)'};">
+              ${isPicked ? '★' : '☆'}
+            </button>
           </div>
         `;
       }).join('');
-    }
 
-    function toggleMenuPick(menuId) {
-      const idx = state.pickedMenus.indexOf(menuId);
-      if (idx > -1) {
-        state.pickedMenus.splice(idx, 1);
-      } else {
-        state.pickedMenus.push(menuId);
+      if (countEl) {
+        countEl.textContent = `찜 ${state.pickedMenus.length}개`;
       }
-      saveState();
-      renderMenus();
-    }
-
-    function filterMenu(category) {
-      state.menuFilter = category;
-      document.querySelectorAll('.menu-filter-btn').forEach(btn => {
-        const active = btn.dataset.filter === category;
-        btn.classList.toggle('bg-aria-burgundy', active);
-        btn.classList.toggle('text-white', active);
-        btn.classList.toggle('bg-aria-sub', !active);
-        btn.classList.toggle('text-aria-body', !active);
-        btn.classList.toggle('border', !active);
-        btn.classList.toggle('border-aria-border', !active);
-      });
-      renderMenus();
-    }
-
-    function selectOrigin(originKey) {
-      state.selectedOrigin = originKey;
-      saveState();
-      renderRoute();
     }
 
     function renderRoute() {
-      // 출발지 버튼 스타일 업데이트
+      const detailEl = document.getElementById('route-detail');
+      if (!detailEl) return;
+
+      // 버튼 활성화 스타일
       document.querySelectorAll('.origin-btn').forEach(btn => {
         const isSelected = btn.dataset.origin === state.selectedOrigin;
-        btn.classList.toggle('bg-aria-burgundy', isSelected);
-        btn.classList.toggle('border-aria-burgundy', isSelected);
-        btn.classList.toggle('text-white', isSelected);
-        btn.classList.toggle('shadow-md', isSelected);
-        btn.classList.toggle('bg-white', !isSelected);
-        btn.classList.toggle('border-aria-border', !isSelected);
-        btn.classList.toggle('text-aria-text', !isSelected);
+        btn.style.backgroundColor = isSelected ? 'var(--accent-burgundy-soft)' : 'var(--bg-subtle)';
+        btn.style.borderColor = isSelected ? 'var(--accent-burgundy)' : 'var(--border-color)';
+        btn.style.color = isSelected ? 'var(--accent-burgundy)' : 'var(--text-primary)';
       });
 
-      const data = ROUTES_DATA[state.selectedOrigin];
-      const container = document.getElementById('route-detail-container');
-      if (!data || !container) return;
-
-      const stepsHtml = data.steps.map((st, index) => `
-        <div class="p-3.5 rounded-xl bg-aria-sub/70 border border-aria-border">
-          <div class="flex items-center gap-2">
-            <span class="w-5 h-5 rounded-full bg-aria-burgundy text-white text-xs font-extrabold flex items-center justify-center shrink-0">
-              ${index + 1}
-            </span>
-            <h4 class="text-[14px] font-extrabold text-aria-text">${st.title}</h4>
+      const data = ROUTES_DATA[state.selectedOrigin] || ROUTES_DATA.osan;
+      detailEl.innerHTML = `
+        <div class="surface-card p-4">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <h3 class="text-base font-extrabold text-primary-theme">${data.name}</h3>
+            <span class="text-xs font-extrabold px-2.5 py-1 rounded-full badge-forest">소요 ${data.duration}</span>
           </div>
-          <p class="text-[14px] text-aria-body mt-1.5 leading-relaxed pl-7">
-            ${st.detail}
-          </p>
+          <div class="text-xs font-bold mb-3" style="color: var(--accent-burgundy);">추천: ${data.recommend}</div>
+          <div class="grid grid-cols-1 gap-1.5 text-xs surface-subtle p-3">
+            <div class="font-bold text-primary-theme">⏰ 권장 출발 시각 (입장 15분 전 도착 기준)</div>
+            <div class="text-secondary-theme">• ${data.depart1}</div>
+            <div class="text-secondary-theme">• ${data.depart2}</div>
+          </div>
         </div>
-      `).join('');
 
-      container.innerHTML = `
-        <div>
-          <div class="flex items-center justify-between gap-2 flex-wrap">
-            <span class="px-2.5 py-0.5 rounded-full bg-aria-burgundy-soft text-aria-burgundy border border-rose-200 text-xs font-bold">
-              ${data.badge}
-            </span>
-            <span class="text-[13px] font-extrabold text-aria-green">소요시간: ${data.duration}</span>
-          </div>
-          <h3 class="text-lg font-extrabold text-aria-text mt-2">${data.name} → 웨스틴 조선 서울</h3>
-          <div class="mt-2.5 px-3.5 py-2.5 rounded-xl bg-aria-green-soft border border-emerald-200 text-[13px] font-bold text-aria-green">
-            ⏰ ${data.recommendLeave}
-          </div>
-          <p class="text-[14px] text-aria-body mt-2.5 leading-relaxed">
-            ${data.summary}
-          </p>
-        </div>
-        <div class="space-y-2.5 pt-3 border-t border-aria-border">
-          ${stepsHtml}
+        <div class="space-y-2.5">
+          ${data.steps.map((s, idx) => `
+            <div class="surface-card p-3.5">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-[11px] font-extrabold px-2 py-0.5 rounded-full badge-amber">STEP ${idx + 1} · ${s.mode}</span>
+              </div>
+              <div class="text-sm font-extrabold text-primary-theme">${s.title}</div>
+              <p class="text-xs text-secondary-theme mt-1 leading-relaxed">${s.detail}</p>
+            </div>
+          `).join('')}
         </div>
       `;
     }
 
     function renderPrepChecklist() {
-      const container = document.getElementById('prep-checklist');
-      if (!container) return;
+      const listEl = document.getElementById('prep-list');
+      if (!listEl) return;
 
-      container.innerHTML = PREP_ITEMS.map(item => {
+      listEl.innerHTML = PREP_ITEMS.map(item => {
         const checked = !!state.checkedPreps[item.id];
         return `
-          <label class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-colors ${
-            checked
-              ? 'bg-aria-green-soft/70 border-emerald-200'
-              : 'bg-aria-sub/60 border-aria-border'
-          }">
-            <input
-              type="checkbox"
-              ${checked ? 'checked' : ''}
-              onchange="togglePrep('${item.id}')"
-              class="w-4 h-4 mt-1 rounded accent-[#14532D] shrink-0"
-            />
-            <span class="text-[14px] font-medium leading-relaxed ${checked ? 'line-through text-aria-muted' : 'text-aria-text'}">
-              ${item.text}
-            </span>
-          </label>
+          <div onclick="togglePrepCheck('${item.id}')" class="p-3 rounded-xl border flex items-center gap-3 cursor-pointer transition active:scale-[0.99]" style="background-color: ${checked ? 'var(--bg-subtle)' : 'var(--bg-card)'}; border-color: var(--border-color);">
+            <span class="w-5 h-5 rounded-md flex items-center justify-center text-xs font-extrabold border shrink-0" style="background-color: ${checked ? 'var(--accent-forest)' : 'transparent'}; border-color: ${checked ? 'var(--accent-forest)' : 'var(--border-color)'}; color: ${checked ? '#FFFFFF' : 'transparent'};">✓</span>
+            <span class="text-xs font-semibold ${checked ? 'line-through text-muted-theme' : 'text-primary-theme'}">${item.text}</span>
+          </div>
         `;
       }).join('');
     }
 
-    function togglePrep(id) {
+    // ==========================================
+    // 5. 인터랙션 핸들러
+    // ==========================================
+    function switchTab(tabName) {
+      state.activeTab = tabName;
+      saveState();
+
+      ['strategy', 'menus', 'routes', 'checklist'].forEach(t => {
+        const section = document.getElementById(`tab-${t}`);
+        if (section) {
+          section.classList.toggle('hidden', t !== tabName);
+        }
+      });
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        const isCurrent = btn.dataset.tab === tabName;
+        btn.style.backgroundColor = isCurrent ? 'var(--accent-burgundy-soft)' : 'transparent';
+        btn.style.color = isCurrent ? 'var(--accent-burgundy)' : 'var(--text-muted)';
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function togglePlateCheck(id) {
+      state.checkedPlates[id] = !state.checkedPlates[id];
+      saveState();
+      renderPlatePlan();
+    }
+
+    function setMenuFilter(filter) {
+      state.menuFilter = filter;
+      saveState();
+      renderMenus();
+    }
+
+    function toggleMenuPick(id) {
+      const idx = state.pickedMenus.indexOf(id);
+      if (idx > -1) {
+        state.pickedMenus.splice(idx, 1);
+        showToast('공략 리스트에서 제외했습니다.');
+      } else {
+        state.pickedMenus.push(id);
+        showToast('공략 메뉴에 찜했습니다 ★');
+      }
+      saveState();
+      renderMenus();
+    }
+
+    function selectOrigin(origin) {
+      state.selectedOrigin = origin;
+      saveState();
+      renderRoute();
+    }
+
+    function togglePrepCheck(id) {
       state.checkedPreps[id] = !state.checkedPreps[id];
       saveState();
       renderPrepChecklist();
     }
 
-    // ==========================================
-    // 6. 주소 복사 및 토스트 알림 (Safari 호환)
-    // ==========================================
-    let toastTimer = null;
     function showToast(msg) {
-      const box = document.getElementById('toast-box');
-      if (!box) return;
-      box.firstElementChild.textContent = msg;
-      box.classList.remove('opacity-0');
-      box.classList.add('opacity-100');
-      if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        box.classList.remove('opacity-100');
-        box.classList.add('opacity-0');
-      }, 2200);
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.style.opacity = '1';
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 1800);
     }
 
     function copyAddress() {
@@ -1045,10 +749,11 @@
     }
 
     // ==========================================
-    // 7. 초기화 실행
+    // 6. 초기화 실행
     // ==========================================
     window.addEventListener('DOMContentLoaded', () => {
       loadState();
+      applyTheme();
       updateDDay();
       renderPlatePlan();
       renderMenus();
